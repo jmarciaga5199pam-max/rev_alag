@@ -30,6 +30,20 @@ class ParentController extends Controller
     }
 
     /**
+     * Check that the caller may act on the given patient.
+     *
+     * Real parents are restricted to children they own. SUPERADMIN bypasses
+     * this so they can use the same /parent/* endpoints to manage any child.
+     */
+    private function canAccessPatient(int $patientId): bool
+    {
+        if ($this->userType() === 'SUPERADMIN') {
+            return true;
+        }
+        return (new Patient())->belongsToParent($patientId, $this->userId());
+    }
+
+    /**
      * Show parent dashboard.
      */
     public function dashboard(): void
@@ -123,7 +137,23 @@ class ParentController extends Controller
             return;
         }
 
-        $result = $this->userService->updateChild((int) $id, $_POST, $this->userId());
+        $childId = (int) $id;
+        if (!$this->canAccessPatient($childId)) {
+            Response::error('Access denied.', 403);
+            return;
+        }
+
+        // When superadmin edits another parent's child, pass the *actual*
+        // parent id so the ownership check inside the service still passes.
+        $effectiveParentId = $this->userId();
+        if ($this->userType() === 'SUPERADMIN') {
+            $child = (new Patient())->find($childId);
+            if ($child) {
+                $effectiveParentId = (int) $child['parent_id'];
+            }
+        }
+
+        $result = $this->userService->updateChild($childId, $_POST, $effectiveParentId);
         $result['success'] ? Response::success(null, $result['message']) : Response::error($result['message']);
     }
 
@@ -144,9 +174,8 @@ class ParentController extends Controller
             return;
         }
 
-        // Verify the child belongs to this parent
-        $patientModel = new Patient();
-        if (!$patientModel->belongsToParent((int) $validation['data']['patient_id'], $this->userId())) {
+        // Verify the child belongs to this parent (superadmin bypasses)
+        if (!$this->canAccessPatient((int) $validation['data']['patient_id'])) {
             Response::error('Access denied.', 403);
             return;
         }
@@ -204,9 +233,8 @@ class ParentController extends Controller
     public function patientRecords(string $patientId): void
     {
         $pid = (int) $patientId;
-        $patientModel = new Patient();
 
-        if (!$patientModel->belongsToParent($pid, $this->userId())) {
+        if (!$this->canAccessPatient($pid)) {
             Response::error('Access denied.', 403);
             return;
         }
@@ -228,9 +256,8 @@ class ParentController extends Controller
     public function vaccinationSchedule(string $patientId): void
     {
         $pid = (int) $patientId;
-        $patientModel = new Patient();
 
-        if (!$patientModel->belongsToParent($pid, $this->userId())) {
+        if (!$this->canAccessPatient($pid)) {
             Response::error('Access denied.', 403);
             return;
         }
@@ -254,8 +281,7 @@ class ParentController extends Controller
                 return;
             }
 
-            $patientModel = new Patient();
-            if (!$patientModel->belongsToParent($patientId, $this->userId())) {
+            if (!$this->canAccessPatient($patientId)) {
                 Response::error('Access denied.', 403);
                 return;
             }
@@ -357,9 +383,8 @@ class ParentController extends Controller
             return;
         }
 
-        // Verify parent owns this patient
-        $patientModel = new Patient();
-        if (!$patientModel->belongsToParent((int) $prescription['patient_id'], $this->userId())) {
+        // Verify parent owns this patient (superadmin bypasses)
+        if (!$this->canAccessPatient((int) $prescription['patient_id'])) {
             Response::error('Access denied.', 403);
             return;
         }

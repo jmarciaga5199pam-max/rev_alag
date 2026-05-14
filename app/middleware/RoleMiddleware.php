@@ -19,7 +19,7 @@ class RoleMiddleware
     {
         $userType = $_SESSION['user_type'] ?? null;
 
-        if (!$userType || !in_array($userType, $this->allowedRoles)) {
+        if (!$userType || !in_array($userType, $this->allowedRoles, true)) {
             if ($this->isAjax()) {
                 Response::error('Access denied. Insufficient permissions.', 403);
             }
@@ -35,47 +35,5 @@ class RoleMiddleware
     {
         return !empty($_SERVER['HTTP_X_REQUESTED_WITH'])
             && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
-    }
-}
-
-// Convenience subclasses for route definitions
-class AdminMiddleware extends RoleMiddleware
-{
-    public function __construct()
-    {
-        parent::__construct('ADMIN');
-        parent::__construct('ADMIN', 'SUPERADMIN');
-    }
-}
-
-class SuperadminMiddleware extends RoleMiddleware
-{
-    public function __construct()
-    {
-        parent::__construct('SUPERADMIN');
-    }
-}
-
-class SuperadminMiddleware extends RoleMiddleware
-{
-    public function __construct()
-    {
-        parent::__construct('SUPERADMIN');
-    }
-}
-
-class DoctorMiddleware extends RoleMiddleware
-{
-    public function __construct()
-    {
-        parent::__construct('DOCTOR', 'DOCTOR_OWNER', 'SUPERADMIN');
-    }
-}
-
-class ParentMiddleware extends RoleMiddleware
-{
-    public function __construct()
-    {
-        parent::__construct('PARENT', 'SUPERADMIN');
     }
 }
