@@ -142,3 +142,68 @@ function send_otp_email_smtp($toEmail, $toName, $otp) {
 
     return smtp_send_email($toEmail, $toName, $subject, $html, $text);
 }
+
+/**
+ * Send a generic AlagApp Clinic notification email (booking confirmations,
+ * appointment approved/rejected, account updates, etc.).
+ *
+ * @param string $toEmail   Recipient email address
+ * @param string $toName    Recipient display name
+ * @param string $subject   Email subject line
+ * @param string $heading   Short heading rendered inside the email body
+ * @param string $bodyHtml  Main HTML body (already escaped where needed)
+ * @param array  $details   Optional list of key => value rows to render in a small table
+ * @return bool
+ */
+function send_notification_email($toEmail, $toName, $subject, $heading, $bodyHtml, array $details = []) {
+    if (!filter_var($toEmail, FILTER_VALIDATE_EMAIL)) {
+        return false;
+    }
+
+    $detailRows = '';
+    foreach ($details as $label => $value) {
+        if ($value === null || $value === '') continue;
+        $detailRows .=
+            '<tr>'
+                . '<td style="padding:6px 12px 6px 0;color:#777;font-size:13px;">' . htmlspecialchars((string) $label) . '</td>'
+                . '<td style="padding:6px 0;color:#222;font-size:14px;">' . htmlspecialchars((string) $value) . '</td>'
+            . '</tr>';
+    }
+
+    $detailsTable = $detailRows !== ''
+        ? '<table cellpadding="0" cellspacing="0" style="margin:16px 0 0;width:100%;border-top:1px solid #f5d0e0;">' . $detailRows . '</table>'
+        : '';
+
+    $html = '
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"></head>
+<body style="margin:0;padding:0;background:#fdf2f8;font-family:Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#fdf2f8;padding:40px 0;">
+    <tr><td align="center">
+      <table width="560" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:12px;border:1px solid #f0c3d4;overflow:hidden;">
+        <tr><td style="background:linear-gradient(135deg,#d03664,#ff7aa3);padding:22px 28px;">
+          <h1 style="margin:0;color:#fff;font-size:20px;font-weight:700;">AlagApp Clinic</h1>
+        </td></tr>
+        <tr><td style="padding:24px 28px;">
+          <p style="margin:0 0 8px;color:#333;font-size:15px;">Hi ' . htmlspecialchars($toName ?: 'there', ENT_QUOTES) . ',</p>
+          <h2 style="margin:0 0 12px;color:#d03664;font-size:18px;">' . htmlspecialchars($heading, ENT_QUOTES) . '</h2>
+          <div style="color:#444;font-size:14px;line-height:1.55;">' . $bodyHtml . '</div>
+          ' . $detailsTable . '
+        </td></tr>
+        <tr><td style="background:#fdf2f8;padding:14px 28px;border-top:1px solid #f5d0e0;">
+          <p style="margin:0;color:#bbb;font-size:11px;text-align:center;">© ' . date('Y') . ' AlagApp Clinic &nbsp;|&nbsp; alagapp.site</p>
+          <p style="margin:4px 0 0;color:#bbb;font-size:10px;text-align:center;">This is an automated message — please do not reply.</p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body></html>';
+
+    $text = $heading . "\n\n" . trim(strip_tags($bodyHtml));
+    foreach ($details as $label => $value) {
+        if ($value === null || $value === '') continue;
+        $text .= "\n" . $label . ': ' . $value;
+    }
+
+    return smtp_send_email($toEmail, $toName, $subject, $html, $text);
+}

@@ -11,7 +11,7 @@ if (!isset($_SESSION['user_id']) || !in_array($_SESSION['user_type'], ['ADMIN', 
 }
 
 // User management is restricted to SUPERADMIN only.
-$user_management_actions = ['add_user', 'toggle_user_status', 'update_user_role'];
+$user_management_actions = ['add_user', 'toggle_user_status', 'update_user_role', 'update_user_profile'];
 if (in_array(($_POST['action'] ?? ''), $user_management_actions, true) && $_SESSION['user_type'] !== 'SUPERADMIN') {
     echo json_encode(['success' => false, 'message' => 'Only Super Admins can manage users.']);
     exit;
@@ -40,6 +40,9 @@ try {
             break;
         case 'update_user_role':
             handleUpdateUserRole($conn);
+            break;
+        case 'update_user_profile':
+            handleUpdateUserProfile($conn);
             break;
         case 'add_schedule':
             handleAddSchedule($conn);
@@ -208,12 +211,21 @@ function handleToggleUserStatus($conn) {
         // Log activity
         $details = "Changed user status: {$user['first_name']} {$user['last_name']} ({$user['user_type']}) to $new_status";
         $ip_address = $_SERVER['REMOTE_ADDR'];
-        
+
         $log_query = "INSERT INTO activity_logs (user_id, action, details, ip_address) VALUES (?, 'UPDATE', ?, ?)";
         $log_stmt = mysqli_prepare($conn, $log_query);
         mysqli_stmt_bind_param($log_stmt, "iss", $current_user_id, $details, $ip_address);
         mysqli_stmt_execute($log_stmt);
-        
+
+        // Notify the user that their account status changed.
+        if (function_exists('send_user_notification')) {
+            $msg = "Your AlagApp Clinic account status has been updated to: " . strtoupper($new_status) . ".";
+            if ($new_status === 'inactive' || $new_status === 'suspended') {
+                $msg .= "\n\nIf you believe this is a mistake, please contact the clinic.";
+            }
+            send_user_notification($conn, $user_id, 'Your account status changed', $msg, 'SYSTEM');
+        }
+
         echo json_encode(['success' => true, 'message' => 'User status updated', 'new_status' => $new_status]);
     } else {
         echo json_encode(['success' => false, 'message' => 'Failed to update user status']);
@@ -271,6 +283,13 @@ function handleUpdateUserRole($conn) {
     $log = mysqli_prepare($conn, "INSERT INTO activity_logs (user_id, action, details, ip_address) VALUES (?, 'UPDATE', ?, ?)");
     mysqli_stmt_bind_param($log, "iss", $current_user_id, $details, $ip_address);
     mysqli_stmt_execute($log);
+
+    // Notify the user that their role has been changed.
+    if (function_exists('send_user_notification')) {
+        $msg = "Your AlagApp Clinic account role has been changed from " . $target['user_type'] . " to " . $new_role . ".\n\n"
+             . "If you have any questions about this change, please contact the clinic.";
+        send_user_notification($conn, $user_id, 'Your account role changed', $msg, 'SYSTEM');
+    }
 
     echo json_encode(['success' => true, 'message' => 'User role updated', 'new_role' => $new_role]);
 }
@@ -803,15 +822,39 @@ function handleUpdateAppointmentStatus($conn) {
         mysqli_stmt_bind_param($log, "iss", $user_id, $details, $ip);
         mysqli_stmt_execute($log);
 
-        // Notify the parent (and doctor for confirmations).
+        // Notify the parent (and doctor for confirmations) — booking
+        // approved (CONFIRMED), rejected (CANCELLED), and other transitions.
         if (function_exists('send_appointment_notification')) {
-            $parent_msg = "Your appointment on $when is now: $new_status.";
-            if ($old_status === 'CANCELLATION_REQUESTED' && $new_status === 'CANCELLED') {
-                $parent_msg = "Your cancellation request for the appointment on $when has been approved.";
-            } elseif ($old_status === 'CANCELLATION_REQUESTED' && $new_status !== 'CANCELLED') {
-                $parent_msg = "Your cancellation request for the appointment on $when was reviewed; the appointment remains $new_status.";
+            $title = 'Appointment ' . strtolower($new_status);
+            switch ($new_status) {
+                case 'CONFIRMED':
+                    $title = 'Appointment approved';
+                    $parent_msg = "Good news — your appointment booking on $when has been APPROVED and confirmed.";
+                    break;
+                case 'CANCELLED':
+                    if ($old_status === 'CANCELLATION_REQUESTED') {
+                        $title = 'Cancellation approved';
+                        $parent_msg = "Your cancellation request for the appointment on $when has been approved.";
+                    } else {
+                        $title = 'Appointment cancelled';
+                        $parent_msg = "Your appointment on $when has been CANCELLED. If you did not request this, please contact the clinic.";
+                    }
+                    break;
+                case 'COMPLETED':
+                    $title = 'Appointment completed';
+                    $parent_msg = "The appointment on $when has been marked as completed. Thank you for visiting AlagApp Clinic.";
+                    break;
+                case 'NO_SHOW':
+                    $title = 'Appointment marked as no-show';
+                    $parent_msg = "The appointment on $when was marked as a NO-SHOW. Please contact the clinic if this is incorrect.";
+                    break;
+                default:
+                    $parent_msg = "Your appointment on $when is now: $new_status.";
+                    if ($old_status === 'CANCELLATION_REQUESTED') {
+                        $parent_msg = "Your cancellation request for the appointment on $when was reviewed; the appointment remains $new_status.";
+                    }
             }
-            if ($parent_id) send_appointment_notification($conn, $parent_id, 'Appointment ' . strtolower($new_status), $parent_msg, $appointment_id);
+            if ($parent_id) send_appointment_notification($conn, $parent_id, $title, $parent_msg, $appointment_id);
             if ($new_status === 'CONFIRMED' && $doctor_id) {
                 send_appointment_notification($conn, $doctor_id, 'Appointment confirmed',
                     "Appointment on $when has been confirmed.", $appointment_id);
@@ -822,5 +865,142 @@ function handleUpdateAppointmentStatus($conn) {
     } else {
         echo json_encode(['success' => false, 'message' => 'Failed to update status']);
     }
+}
+
+/**
+ * SuperAdmin Edit User: update core profile + role/status, then email the user.
+ *
+ * Doctor accounts can have profile fields edited but not their role; only
+ * SUPERADMIN can call this (already gated above).
+ */
+function handleUpdateUserProfile($conn) {
+    if (!isset($_POST['user_id'])) {
+        echo json_encode(['success' => false, 'message' => 'Missing user ID']);
+        return;
+    }
+
+    $user_id = intval($_POST['user_id']);
+    $current_user_id = (int) ($_SESSION['user_id'] ?? 0);
+
+    $target_stmt = mysqli_prepare($conn, "SELECT id, first_name, last_name, email, user_type, status FROM users WHERE id = ?");
+    if (!$target_stmt) {
+        echo json_encode(['success' => false, 'message' => 'Database error.']);
+        return;
+    }
+    mysqli_stmt_bind_param($target_stmt, "i", $user_id);
+    mysqli_stmt_execute($target_stmt);
+    $target = mysqli_fetch_assoc(mysqli_stmt_get_result($target_stmt));
+    if (!$target) {
+        echo json_encode(['success' => false, 'message' => 'User not found.']);
+        return;
+    }
+
+    $first_name = sanitize_input($_POST['first_name'] ?? '');
+    $last_name = sanitize_input($_POST['last_name'] ?? '');
+    $email = sanitize_input($_POST['email'] ?? '');
+    $phone = sanitize_input($_POST['phone'] ?? '');
+    $date_of_birth = sanitize_input($_POST['date_of_birth'] ?? '') ?: null;
+    $gender = strtoupper(sanitize_input($_POST['gender'] ?? '')) ?: null;
+    $address = trim($_POST['address'] ?? '');
+    $emergency_contact_name = sanitize_input($_POST['emergency_contact_name'] ?? '');
+    $emergency_contact_phone = sanitize_input($_POST['emergency_contact_phone'] ?? '');
+    $new_role = strtoupper(sanitize_input($_POST['user_type'] ?? ''));
+    $new_status = strtolower(sanitize_input($_POST['status'] ?? ''));
+
+    if ($first_name === '' || $last_name === '' || $email === '') {
+        echo json_encode(['success' => false, 'message' => 'First name, last name and email are required.']);
+        return;
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo json_encode(['success' => false, 'message' => 'Invalid email format.']);
+        return;
+    }
+    if (strlen($first_name) > 50 || strlen($last_name) > 50 || strlen($email) > 100) {
+        echo json_encode(['success' => false, 'message' => 'Name/email is too long.']);
+        return;
+    }
+
+    $allowed_roles = ['PARENT', 'DOCTOR', 'DOCTOR_OWNER', 'ADMIN', 'SUPERADMIN'];
+    $allowed_statuses = ['active', 'inactive', 'suspended', 'pending'];
+    $current_role = strtoupper($target['user_type']);
+    $current_status = strtolower($target['status']);
+
+    if ($new_role === '' || !in_array($new_role, $allowed_roles, true)) {
+        $new_role = $current_role;
+    }
+    if ($new_status === '' || !in_array($new_status, $allowed_statuses, true)) {
+        $new_status = $current_status;
+    }
+
+    $isDoctor = ($current_role === 'DOCTOR' || $current_role === 'DOCTOR_OWNER');
+    if ($isDoctor && $new_role !== $current_role) {
+        echo json_encode(['success' => false, 'message' => "A doctor's role cannot be changed."]);
+        return;
+    }
+    if (!$isDoctor && ($new_role === 'DOCTOR' || $new_role === 'DOCTOR_OWNER')) {
+        echo json_encode(['success' => false, 'message' => 'Promoting a user into a doctor role must be done via Add User.']);
+        return;
+    }
+    if ($user_id === $current_user_id) {
+        $new_role = $current_role;
+        $new_status = $current_status;
+    }
+
+    // Email uniqueness check
+    if (strtolower($email) !== strtolower($target['email'])) {
+        $dupe = mysqli_prepare($conn, "SELECT id FROM users WHERE email = ? AND id <> ?");
+        mysqli_stmt_bind_param($dupe, "si", $email, $user_id);
+        mysqli_stmt_execute($dupe);
+        if (mysqli_fetch_assoc(mysqli_stmt_get_result($dupe))) {
+            echo json_encode(['success' => false, 'message' => 'That email address is already in use.']);
+            return;
+        }
+    }
+
+    $update = mysqli_prepare($conn,
+        "UPDATE users
+            SET first_name = ?, last_name = ?, email = ?, phone = ?,
+                date_of_birth = ?, gender = ?, address = ?,
+                emergency_contact_name = ?, emergency_contact_phone = ?,
+                user_type = ?, status = ?
+          WHERE id = ?");
+    if (!$update) {
+        echo json_encode(['success' => false, 'message' => 'Database error.']);
+        return;
+    }
+    mysqli_stmt_bind_param(
+        $update, "sssssssssssi",
+        $first_name, $last_name, $email, $phone,
+        $date_of_birth, $gender, $address,
+        $emergency_contact_name, $emergency_contact_phone,
+        $new_role, $new_status, $user_id
+    );
+    if (!mysqli_stmt_execute($update)) {
+        error_log('handleUpdateUserProfile update failed: ' . mysqli_stmt_error($update));
+        echo json_encode(['success' => false, 'message' => 'Failed to update user.']);
+        return;
+    }
+
+    // Audit log
+    $details = "Updated user profile for {$target['first_name']} {$target['last_name']} (id={$user_id})";
+    $changes = [];
+    if ($current_role !== $new_role) $changes[] = "role $current_role→$new_role";
+    if ($current_status !== $new_status) $changes[] = "status $current_status→$new_status";
+    if (strtolower($email) !== strtolower($target['email'])) $changes[] = "email changed";
+    if (!empty($changes)) $details .= ' [' . implode(', ', $changes) . ']';
+    $ip_address = $_SERVER['REMOTE_ADDR'] ?? '';
+    $log = mysqli_prepare($conn, "INSERT INTO activity_logs (user_id, action, details, ip_address) VALUES (?, 'UPDATE', ?, ?)");
+    mysqli_stmt_bind_param($log, "iss", $current_user_id, $details, $ip_address);
+    mysqli_stmt_execute($log);
+
+    // Email the user that their account was updated by a SuperAdmin.
+    if (function_exists('send_user_notification')) {
+        $msg = "Your AlagApp Clinic account profile was updated by a system administrator.";
+        if (!empty($changes)) $msg .= "\n\nChanges: " . implode(', ', $changes);
+        $msg .= "\n\nIf you did not expect this change, please contact the clinic immediately.";
+        send_user_notification($conn, $user_id, 'Your account was updated', $msg, 'SYSTEM');
+    }
+
+    echo json_encode(['success' => true, 'message' => 'User updated successfully.']);
 }
 ?>

@@ -8,10 +8,24 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-// Check if user is admin or superadmin. SUPERADMINs see everything;
-// regular ADMINs get the same dashboard minus user management.
+// Admin and SuperAdmin have separate landing pages. SuperAdmin gets every
+// feature on superadmin-dashboard.php; this page is for ADMIN only — except
+// when superadmin-dashboard.php includes us, in which case we render the
+// full superadmin view.
+$__from_superadmin_wrapper = defined('SUPERADMIN_DASHBOARD_ENTRY');
+
 if (!in_array($_SESSION['user_type'], ['ADMIN', 'SUPERADMIN'], true)) {
     header('Location: dashboard.php'); // Redirect to regular user dashboard
+    exit;
+}
+
+if ($_SESSION['user_type'] === 'SUPERADMIN' && !$__from_superadmin_wrapper) {
+    header('Location: superadmin-dashboard.php');
+    exit;
+}
+
+if ($_SESSION['user_type'] === 'ADMIN' && $__from_superadmin_wrapper) {
+    header('Location: admin-dashboard.php');
     exit;
 }
 
@@ -598,19 +612,52 @@ $calendar_appointments = get_all_appointments_for_calendar($conn);
                                 </tr>
                             </thead>
                             <tbody id="usersTableBody" class="bg-white divide-y divide-gray-200">
-                                <?php foreach ($all_users as $user): ?>
+                                <?php foreach ($all_users as $user):
+                                    $u_role = strtoupper($user['user_type']);
+                                    $isDoctor = in_array($u_role, ['DOCTOR', 'DOCTOR_OWNER'], true);
+                                    $isSelf = (int) $user['id'] === (int) ($_SESSION['user_id'] ?? 0);
+                                    $userJson = htmlspecialchars(
+                                        json_encode([
+                                            'id' => (int) $user['id'],
+                                            'first_name' => $user['first_name'] ?? '',
+                                            'last_name' => $user['last_name'] ?? '',
+                                            'email' => $user['email'] ?? '',
+                                            'phone' => $user['phone'] ?? '',
+                                            'user_type' => $u_role,
+                                            'status' => $user['status'] ?? '',
+                                            'date_of_birth' => $user['date_of_birth'] ?? '',
+                                            'gender' => $user['gender'] ?? '',
+                                            'address' => $user['address'] ?? '',
+                                            'emergency_contact_name' => $user['emergency_contact_name'] ?? '',
+                                            'emergency_contact_phone' => $user['emergency_contact_phone'] ?? '',
+                                        ], JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_HEX_AMP),
+                                        ENT_QUOTES, 'UTF-8'
+                                    );
+                                ?>
                                 <tr class="hover:bg-gray-50"
                                     data-user-id="<?php echo (int) $user['id']; ?>"
-                                    data-role="<?php echo htmlspecialchars(strtoupper($user['user_type'])); ?>"
-                                    data-status="<?php echo htmlspecialchars(strtolower($user['status'])); ?>">
+                                    data-role="<?php echo htmlspecialchars($u_role); ?>"
+                                    data-status="<?php echo htmlspecialchars(strtolower($user['status'])); ?>"
+                                    data-user='<?php echo $userJson; ?>'>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-900"><?php echo htmlspecialchars($user['first_name'] . ' ' . $user['last_name']); ?></div>
+                                        <div class="text-sm font-medium text-gray-900"><?php echo htmlspecialchars($user['first_name'] . ' ' . $user['last_name']); ?><?php echo $isSelf ? ' <span class="text-xs text-gray-400">(you)</span>' : ''; ?></div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900"><?php echo htmlspecialchars($user['email']); ?></div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 py-1 text-xs font-medium rounded-full <?php echo getRoleBadge($user['user_type']); ?>"><?php echo $user['user_type']; ?></span>
+                                        <?php if ($isDoctor || $isSelf): ?>
+                                            <span class="px-2 py-1 text-xs font-medium rounded-full <?php echo getRoleBadge($user['user_type']); ?>"><?php echo $user['user_type']; ?></span>
+                                            <?php if ($isDoctor): ?><span class="ml-1 text-xs text-gray-400" title="Doctor role is locked">&#128274;</span><?php endif; ?>
+                                        <?php else: ?>
+                                            <select class="px-2 py-1 text-xs rounded border border-gray-300 focus:ring-1 focus:ring-primary focus:outline-none"
+                                                    data-current-role="<?php echo htmlspecialchars($u_role); ?>"
+                                                    onchange="changeUserRoleSelect(<?php echo (int) $user['id']; ?>, this)">
+                                                <?php foreach (['PARENT', 'ADMIN', 'SUPERADMIN'] as $r): ?>
+                                                    <option value="<?php echo $r; ?>" <?php echo $u_role === $r ? 'selected' : ''; ?>><?php echo $r; ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        <?php endif; ?>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <span class="px-2 py-1 text-xs font-medium rounded-full <?php echo $user['status'] === 'active' ? 'status-active' : 'status-inactive'; ?>">
@@ -621,13 +668,14 @@ $calendar_appointments = get_all_appointments_for_calendar($conn);
                                         <?php echo date('M j, Y', strtotime($user['created_at'])); ?>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <button onclick="editUser(<?php echo $user['id']; ?>)" class="text-primary hover:underline mr-3">Edit</button>
-                                        <?php if (!in_array(strtoupper($user['user_type']), ['DOCTOR', 'DOCTOR_OWNER'], true)): ?>
-                                        <button onclick="changeUserRole(<?php echo $user['id']; ?>, '<?php echo htmlspecialchars($user['user_type']); ?>')" class="text-indigo-600 hover:underline mr-3">Change Role</button>
+                                        <?php if ($isSelf): ?>
+                                            <span class="text-xs text-gray-400" title="You can't modify your own account">No actions</span>
+                                        <?php else: ?>
+                                            <button onclick="editUser(<?php echo $user['id']; ?>)" class="text-primary hover:underline mr-3">Edit</button>
+                                            <button onclick="toggleUserStatus(<?php echo $user['id']; ?>)" class="text-<?php echo $user['status'] === 'active' ? 'red' : 'green'; ?>-600 hover:underline">
+                                                <?php echo $user['status'] === 'active' ? 'Deactivate' : 'Activate'; ?>
+                                            </button>
                                         <?php endif; ?>
-                                        <button onclick="toggleUserStatus(<?php echo $user['id']; ?>)" class="text-<?php echo $user['status'] === 'active' ? 'red' : 'green'; ?>-600 hover:underline">
-                                            <?php echo $user['status'] === 'active' ? 'Deactivate' : 'Activate'; ?>
-                                        </button>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>
@@ -1066,6 +1114,93 @@ $calendar_appointments = get_all_appointments_for_calendar($conn);
         </div>
     </div>
     
+    <!-- Edit User Modal (SuperAdmin) -->
+    <div id="editUserModal" class="fixed inset-0 modal-backdrop hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl max-w-2xl w-full mx-4 max-h-screen overflow-y-auto">
+            <div class="p-6 md:p-8">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h2 class="text-2xl font-inter font-bold text-gray-800 mb-1">Edit User</h2>
+                        <p class="text-gray-600 text-sm">Update this user's profile and account settings.</p>
+                    </div>
+                    <button type="button" onclick="closeEditUserModal()" class="text-gray-400 hover:text-gray-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+                <form id="editUserForm" onsubmit="handleEditUser(event)" class="space-y-4">
+                    <input type="hidden" id="editUserId" name="user_id">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">First Name <span class="text-red-500">*</span></label>
+                            <input type="text" id="editUserFirstName" required maxlength="50" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Last Name <span class="text-red-500">*</span></label>
+                            <input type="text" id="editUserLastName" required maxlength="50" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email <span class="text-red-500">*</span></label>
+                            <input type="email" id="editUserEmail" required maxlength="100" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                            <input type="tel" id="editUserPhone" maxlength="20" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+                            <input type="date" id="editUserDob" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                            <select id="editUserGender" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                                <option value="">Unspecified</option>
+                                <option value="MALE">Male</option>
+                                <option value="FEMALE">Female</option>
+                                <option value="OTHER">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                        <textarea id="editUserAddress" rows="2" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"></textarea>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Emergency Contact Name</label>
+                            <input type="text" id="editUserEmergencyName" maxlength="100" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Emergency Contact Phone</label>
+                            <input type="tel" id="editUserEmergencyPhone" maxlength="20" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Role <span class="text-red-500">*</span></label>
+                            <select id="editUserRole" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                                <option value="PARENT">Parent</option>
+                                <option value="ADMIN">Admin</option>
+                                <option value="SUPERADMIN">Super Admin</option>
+                            </select>
+                            <p class="mt-1 text-xs text-gray-500" id="editUserRoleHint">Doctor roles cannot be changed here.</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Status <span class="text-red-500">*</span></label>
+                            <select id="editUserStatus" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                                <option value="suspended">Suspended</option>
+                                <option value="pending">Pending</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="flex flex-col-reverse sm:flex-row sm:justify-end gap-3 pt-2">
+                        <button type="button" onclick="closeEditUserModal()" class="px-4 py-2 border border-gray-300 rounded-lg font-medium hover:bg-gray-50">Cancel</button>
+                        <button type="submit" class="px-4 py-2 btn-primary text-white rounded-lg font-semibold">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Add User Modal -->
     <div id="addUserModal" class="fixed inset-0 modal-backdrop hidden z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full mx-4 max-h-screen overflow-y-auto">

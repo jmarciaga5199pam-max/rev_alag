@@ -367,6 +367,38 @@ function send_appointment_notification($conn, $user_id, $title, $message, $appoi
 }
 
 /**
+ * Send a generic account notification to a user: writes an in-app bell entry
+ * AND sends an email. Used for account updates, role changes, status changes,
+ * password resets and other non-appointment events.
+ */
+function send_user_notification($conn, $user_id, $title, $message, $type = 'SYSTEM') {
+    create_notification($conn, $user_id, $title, $message, $type, 'user', $user_id, 'ALL');
+
+    $stmt = mysqli_prepare($conn, "SELECT email, first_name, last_name FROM users WHERE id = ?");
+    if (!$stmt) return false;
+    mysqli_stmt_bind_param($stmt, "i", $user_id);
+    mysqli_stmt_execute($stmt);
+    $res = mysqli_stmt_get_result($stmt);
+    $u = mysqli_fetch_assoc($res);
+    if (!$u || empty($u['email'])) return false;
+
+    if (!function_exists('send_notification_email')) {
+        @include_once __DIR__ . '/smtp_mailer.php';
+    }
+    if (!function_exists('send_notification_email')) return false;
+
+    $name = trim(($u['first_name'] ?? '') . ' ' . ($u['last_name'] ?? ''));
+    $bodyHtml = nl2br(htmlspecialchars($message, ENT_QUOTES, 'UTF-8'));
+    return send_notification_email(
+        $u['email'],
+        $name,
+        '[AlagApp Clinic] ' . $title,
+        $title,
+        $bodyHtml
+    );
+}
+
+/**
  * Convenience: return all admin/superadmin user IDs (used to notify clinic
  * staff about new appointments / cancellation requests).
  */
