@@ -1,0 +1,1848 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.2
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1:3306
+-- Generation Time: May 14, 2026 at 02:26 AM
+-- Server version: 11.8.6-MariaDB-log
+-- PHP Version: 7.2.34
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `u854009390_sllsggt`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `activity_logs`
+--
+
+CREATE TABLE `activity_logs` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED DEFAULT NULL,
+  `action` varchar(100) NOT NULL,
+  `entity_type` varchar(50) DEFAULT NULL COMMENT 'e.g. user, patient, appointment',
+  `entity_id` int(10) UNSIGNED DEFAULT NULL,
+  `details` text DEFAULT NULL,
+  `ip_address` varchar(45) DEFAULT NULL,
+  `user_agent` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `activity_logs`
+--
+
+INSERT INTO `activity_logs` (`id`, `user_id`, `action`, `entity_type`, `entity_id`, `details`, `ip_address`, `user_agent`, `created_at`) VALUES
+(1, 1, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-03-13 00:10:37'),
+(2, 1, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-03-13 00:12:55'),
+(3, 1, 'CREATE', NULL, NULL, 'Created new user: CHRISTIAN GEREMILLO (PARENT) - ID: 9', '::1', NULL, '2026-03-13 00:16:17'),
+(4, 1, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-03-13 00:16:24'),
+(5, 9, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-03-13 00:16:28'),
+(6, 9, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-03-13 00:24:43'),
+(7, 9, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-03-13 00:25:35'),
+(8, 9, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-03-13 00:30:39'),
+(9, 4, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-03-13 00:31:28'),
+(10, 4, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-03-13 00:36:53'),
+(11, 1, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-03-13 00:37:03'),
+(12, 1, 'CREATE', NULL, NULL, 'Created announcement: TEST', '::1', NULL, '2026-03-13 00:44:22'),
+(13, 1, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-03-13 00:44:28'),
+(14, 1, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-03-13 00:45:03'),
+(15, 2, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-16 16:47:20'),
+(16, 2, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-16 16:47:25'),
+(17, 2, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-16 16:47:43'),
+(18, 2, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-16 16:47:46'),
+(19, 2, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-16 16:47:51'),
+(20, 9, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-16 16:48:00'),
+(21, 9, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-16 16:48:18'),
+(22, 9, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-16 16:48:28'),
+(23, 1, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 01:05:37'),
+(24, 1, 'CREATE', NULL, NULL, 'Added new service: mlmo ($20, 30min)', '::1', NULL, '2026-04-17 01:06:08'),
+(25, 1, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 01:06:19'),
+(26, 1, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 01:07:18'),
+(27, 1, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 01:09:14'),
+(28, 9, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 01:09:41'),
+(29, 9, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 01:11:50'),
+(30, 2, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 01:11:57'),
+(31, 2, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 01:12:07'),
+(32, 9, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 01:12:13'),
+(33, 9, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 01:13:16'),
+(34, 2, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 01:13:24'),
+(35, 2, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 01:13:33'),
+(36, 9, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 01:13:40'),
+(37, 9, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 01:15:32'),
+(38, 2, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 01:15:37'),
+(39, 2, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 01:21:39'),
+(40, 1, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 01:21:44'),
+(41, 1, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 01:22:57'),
+(42, 1, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 02:03:56'),
+(43, 1, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 02:26:55'),
+(44, 1, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 02:28:00'),
+(45, 1, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 02:31:20'),
+(46, 1, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 02:33:08'),
+(47, 1, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 02:35:16'),
+(48, 1, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 02:36:19'),
+(49, 1, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 02:36:41'),
+(50, 1, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 02:36:50'),
+(51, 9, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 03:05:35'),
+(52, 9, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 03:06:13'),
+(53, 9, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 03:06:45'),
+(54, 9, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 03:52:22'),
+(55, 9, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 04:00:41'),
+(56, 9, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 04:12:20'),
+(57, 2, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 04:12:28'),
+(58, 2, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 04:12:44'),
+(59, 1, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 04:13:38'),
+(60, 1, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 04:15:49'),
+(61, 1, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 04:19:38'),
+(62, 1, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 04:57:02'),
+(63, 1, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 04:57:22'),
+(64, 2, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 04:57:31'),
+(65, 2, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 05:01:08'),
+(66, 9, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 05:01:21'),
+(67, 9, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 05:01:51'),
+(68, 2, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 05:01:55'),
+(69, 2, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 05:02:32'),
+(70, 9, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 05:02:40'),
+(71, 9, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 05:03:06'),
+(72, 9, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 05:03:09'),
+(73, 9, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 05:03:12'),
+(74, 2, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 05:03:16'),
+(75, 2, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 05:04:24'),
+(76, 2, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 05:18:50'),
+(77, 2, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 05:18:59'),
+(78, 2, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 05:45:29'),
+(79, 2, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 05:45:59'),
+(80, 9, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 06:59:23'),
+(81, 9, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 07:01:13'),
+(82, 2, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 07:01:19'),
+(83, 2, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 07:01:54'),
+(84, 1, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 07:01:59'),
+(85, 1, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 07:02:38'),
+(86, 1, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 07:11:45'),
+(87, 1, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 07:12:24'),
+(88, 1, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 07:15:29'),
+(89, 9, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 07:21:02'),
+(90, 9, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 07:21:30'),
+(91, 2, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 07:21:35'),
+(92, 2, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 07:22:09'),
+(93, 1, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 07:22:14'),
+(94, 1, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 07:23:05'),
+(95, 1, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 11:34:59'),
+(96, 1, 'UPDATE', NULL, NULL, 'Changed service status: mlmo to Inactive', '::1', NULL, '2026-04-17 11:36:54'),
+(97, 1, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 11:37:03'),
+(98, 1, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 11:37:11'),
+(99, 1, 'UPDATE', NULL, NULL, 'Changed service status: mlmo to Active', '::1', NULL, '2026-04-17 11:37:17'),
+(100, 1, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 11:37:20'),
+(101, 1, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 11:37:32'),
+(102, 1, 'CREATE', NULL, NULL, 'Created new user: JUSTIN ARCIAGA (DOCTOR) - ID: 10', '::1', NULL, '2026-04-17 11:38:07'),
+(103, 1, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 11:38:10'),
+(104, 10, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 11:38:22'),
+(105, 10, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 11:38:25'),
+(106, 1, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 11:38:30'),
+(107, 1, 'UPDATE', NULL, NULL, 'Changed user status: JUSTIN ARCIAGA (DOCTOR) to inactive', '::1', NULL, '2026-04-17 11:39:52'),
+(108, 1, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 11:41:13'),
+(109, 1, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 11:41:32'),
+(110, 1, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 11:43:03'),
+(111, 1, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 11:43:09'),
+(112, 1, 'CREATE', NULL, NULL, 'Created new user: gerick lim (PARENT) - ID: 11', '::1', NULL, '2026-04-17 11:43:38'),
+(113, 1, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 11:43:49'),
+(114, 11, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 11:43:57'),
+(115, 11, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 11:44:19'),
+(116, 1, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 11:44:22'),
+(117, 1, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 11:44:26'),
+(118, 11, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 11:44:36'),
+(119, 11, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 11:45:08'),
+(120, 11, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 11:45:11'),
+(121, 11, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 11:45:39'),
+(122, 1, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 11:45:47'),
+(123, 1, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 12:12:33'),
+(124, 9, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 12:12:41'),
+(125, 9, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 12:16:18'),
+(126, 9, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 12:18:35'),
+(127, 9, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 12:20:55'),
+(128, 9, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 12:48:42'),
+(129, 9, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 12:57:12'),
+(130, 2, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 12:57:31'),
+(131, 2, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 13:01:05'),
+(132, 2, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 13:03:25'),
+(133, 2, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 13:04:43'),
+(134, 9, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 14:36:11'),
+(135, 9, 'LOGOUT', NULL, NULL, 'User logged out', '::1', NULL, '2026-04-17 14:37:17'),
+(136, 2, 'LOGIN', NULL, NULL, NULL, '::1', NULL, '2026-04-17 14:37:21'),
+(137, 1, 'LOGIN', NULL, NULL, NULL, '2001:4451:53b:8200:d11e:607a:7de1:6fc8', NULL, '2026-04-19 11:51:39'),
+(138, 13, 'User registered', NULL, NULL, NULL, NULL, NULL, '2026-04-19 13:34:19'),
+(139, 13, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4451:53b:8200:d11e:607a:7de1:6fc8', NULL, '2026-04-19 13:34:28'),
+(140, 14, 'User registered', NULL, NULL, NULL, NULL, NULL, '2026-04-19 13:35:43'),
+(141, 14, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4451:53b:8200:d11e:607a:7de1:6fc8', NULL, '2026-04-19 13:38:31'),
+(142, 15, 'User registered (pending OTP)', NULL, NULL, NULL, NULL, NULL, '2026-04-19 14:27:39'),
+(143, 15, 'LOGOUT', NULL, NULL, 'User logged out', '2405:8d40:4c03:e08f:18a7:96c1:fb2d:ad6a', NULL, '2026-04-19 14:29:02'),
+(144, 1, 'LOGIN', NULL, NULL, NULL, '2405:8d40:4c03:e08f:18a7:96c1:fb2d:ad6a', NULL, '2026-04-19 14:38:09'),
+(145, 1, 'LOGOUT', NULL, NULL, 'User logged out', '2405:8d40:4c03:e08f:18a7:96c1:fb2d:ad6a', NULL, '2026-04-19 14:38:39'),
+(146, 16, 'User registered (pending OTP)', NULL, NULL, NULL, NULL, NULL, '2026-04-20 01:53:20'),
+(147, 1, 'LOGIN', NULL, NULL, NULL, '119.94.183.104', NULL, '2026-04-20 01:58:35'),
+(148, 16, 'LOGOUT', NULL, NULL, 'User logged out', '2a09:bac5:55fc:101e::19b:133', NULL, '2026-04-20 03:05:02'),
+(149, 16, 'LOGIN', NULL, NULL, NULL, '2a09:bac5:55fc:101e::19b:133', NULL, '2026-04-20 03:05:49'),
+(150, 17, 'User registered (pending OTP)', NULL, NULL, NULL, NULL, NULL, '2026-04-20 14:03:05'),
+(151, 17, 'LOGOUT', NULL, NULL, 'User logged out', '119.94.183.104', NULL, '2026-04-20 14:05:11'),
+(152, 2, 'LOGIN', NULL, NULL, NULL, '119.94.183.104', NULL, '2026-04-20 14:06:06'),
+(153, 2, 'LOGIN', NULL, NULL, NULL, '119.94.183.104', NULL, '2026-04-20 14:07:39'),
+(154, 2, 'LOGOUT', NULL, NULL, 'User logged out', '119.94.183.104', NULL, '2026-04-20 14:21:03'),
+(155, 1, 'LOGIN', NULL, NULL, NULL, '119.94.183.104', NULL, '2026-04-20 14:21:21'),
+(156, 1, 'LOGOUT', NULL, NULL, 'User logged out', '119.94.183.104', NULL, '2026-04-20 14:22:30'),
+(157, 9, 'LOGIN', NULL, NULL, NULL, '119.94.183.104', NULL, '2026-04-20 15:26:58'),
+(158, 9, 'LOGOUT', NULL, NULL, 'User logged out', '119.94.183.104', NULL, '2026-04-20 15:27:44'),
+(159, 18, 'User registered (pending OTP)', NULL, NULL, NULL, NULL, NULL, '2026-04-20 15:31:09'),
+(160, 2, 'LOGIN', NULL, NULL, NULL, '119.94.183.104', NULL, '2026-04-20 15:32:28'),
+(161, 2, 'LOGIN', NULL, NULL, NULL, '119.94.183.104', NULL, '2026-04-20 15:36:20'),
+(162, 2, 'LOGIN', NULL, NULL, NULL, '119.94.183.104', NULL, '2026-04-20 15:57:03'),
+(163, 2, 'LOGIN', NULL, NULL, NULL, '119.94.183.104', NULL, '2026-04-21 01:30:52'),
+(164, 19, 'User registered (pending OTP)', NULL, NULL, NULL, NULL, NULL, '2026-04-21 02:26:35'),
+(165, 19, 'LOGOUT', NULL, NULL, 'User logged out', '131.226.98.155', NULL, '2026-04-21 02:32:16'),
+(166, 2, 'LOGIN', NULL, NULL, NULL, '131.226.98.155', NULL, '2026-04-21 02:33:06'),
+(167, 2, 'LOGOUT', NULL, NULL, 'User logged out', '131.226.98.155', NULL, '2026-04-21 02:36:16'),
+(168, 1, 'LOGIN', NULL, NULL, NULL, '131.226.98.155', NULL, '2026-04-21 02:36:56'),
+(169, 20, 'User registered (pending OTP)', NULL, NULL, NULL, NULL, NULL, '2026-04-21 03:39:54'),
+(170, 21, 'User registered (pending OTP)', NULL, NULL, NULL, NULL, NULL, '2026-04-21 03:43:50'),
+(171, 21, 'LOGOUT', NULL, NULL, 'User logged out', '131.226.98.155', NULL, '2026-04-21 03:46:26'),
+(172, 1, 'LOGIN', NULL, NULL, NULL, '131.226.98.155', NULL, '2026-04-21 03:46:55'),
+(173, 21, 'LOGIN', NULL, NULL, NULL, '2a09:bac5:55fb:15f::23:408', NULL, '2026-04-21 04:17:02'),
+(174, 21, 'LOGOUT', NULL, NULL, 'User logged out', '2a09:bac5:55fb:15f::23:408', NULL, '2026-04-21 04:19:25'),
+(175, 1, 'LOGIN', NULL, NULL, NULL, '2a09:bac5:55fb:15f::23:408', NULL, '2026-04-21 04:19:56'),
+(176, 1, 'LOGOUT', NULL, NULL, 'User logged out', '2a09:bac1:6540:8::23:408', NULL, '2026-04-21 04:25:16'),
+(177, 2, 'LOGIN', NULL, NULL, NULL, '2a09:bac1:6540:8::23:408', NULL, '2026-04-21 04:25:48'),
+(178, 2, 'LOGOUT', NULL, NULL, 'User logged out', '2a09:bac5:55fe:15f::23:408', NULL, '2026-04-21 04:33:31'),
+(179, 9, 'LOGIN', NULL, NULL, NULL, '119.94.183.104', NULL, '2026-04-21 20:06:42'),
+(180, 9, 'LOGIN', NULL, NULL, NULL, '131.226.98.2', NULL, '2026-04-21 23:34:30'),
+(181, 2, 'LOGIN', NULL, NULL, NULL, '122.3.108.112', NULL, '2026-04-22 00:07:42'),
+(182, 2, 'LOGOUT', NULL, NULL, 'User logged out', '122.3.108.112', NULL, '2026-04-22 00:11:08'),
+(183, 1, 'LOGIN', NULL, NULL, NULL, '122.3.108.112', NULL, '2026-04-22 00:11:34'),
+(184, 1, 'LOGOUT', NULL, NULL, 'User logged out', '122.3.108.112', NULL, '2026-04-22 00:19:15'),
+(185, 9, 'LOGIN', NULL, NULL, NULL, '2001:4455:907e:dc00:2d01:ed0e:569:fb38', NULL, '2026-04-22 04:23:10'),
+(186, 9, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4455:907e:dc00:2d01:ed0e:569:fb38', NULL, '2026-04-22 04:27:15'),
+(187, 2, 'LOGIN', NULL, NULL, NULL, '2001:4455:907e:dc00:2d01:ed0e:569:fb38', NULL, '2026-04-22 04:29:15'),
+(188, 2, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4455:907e:dc00:2d01:ed0e:569:fb38', NULL, '2026-04-22 04:36:14'),
+(189, 1, 'LOGIN', NULL, NULL, NULL, '2001:4455:907e:dc00:2d01:ed0e:569:fb38', NULL, '2026-04-22 04:36:44'),
+(190, 1, 'UPDATE', NULL, NULL, 'Changed user status: Maria Santos (DOCTOR) to inactive', '2001:4455:907e:dc00:2d01:ed0e:569:fb38', NULL, '2026-04-22 04:38:02'),
+(191, 1, 'CREATE', NULL, NULL, 'Created announcement: Vaccination', '2001:4455:907e:dc00:2d01:ed0e:569:fb38', NULL, '2026-04-22 04:39:51'),
+(192, 1, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4455:907e:dc00:2d01:ed0e:569:fb38', NULL, '2026-04-22 04:40:52'),
+(193, 1, 'LOGIN', NULL, NULL, NULL, '2001:4455:907e:dc00:2d01:ed0e:569:fb38', NULL, '2026-04-22 04:41:33'),
+(194, 1, 'UPDATE', NULL, NULL, 'Changed user status: Maria Santos (DOCTOR) to active', '2001:4455:907e:dc00:2d01:ed0e:569:fb38', NULL, '2026-04-22 04:41:45'),
+(195, 1, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4455:907e:dc00:2d01:ed0e:569:fb38', NULL, '2026-04-22 04:41:48'),
+(196, 9, 'LOGIN', NULL, NULL, NULL, '2001:4455:907e:dc00:2d01:ed0e:569:fb38', NULL, '2026-04-22 04:42:14'),
+(197, 9, 'LOGIN', NULL, NULL, NULL, '122.52.184.193', NULL, '2026-04-23 01:02:44'),
+(198, 9, 'LOGIN', NULL, NULL, NULL, '120.29.109.20', NULL, '2026-04-23 01:21:28'),
+(199, 9, 'LOGIN', NULL, NULL, NULL, '120.29.109.20', NULL, '2026-04-23 01:25:55'),
+(200, 9, 'LOGIN', NULL, NULL, NULL, '122.2.104.211', NULL, '2026-04-23 13:11:11'),
+(201, 9, 'LOGOUT', NULL, NULL, 'User logged out', '122.2.104.211', NULL, '2026-04-23 13:12:24'),
+(202, 2, 'LOGIN', NULL, NULL, NULL, '122.2.104.211', NULL, '2026-04-23 13:12:55'),
+(203, 2, 'LOGOUT', NULL, NULL, 'User logged out', '122.2.104.211', NULL, '2026-04-23 13:14:39'),
+(204, 1, 'LOGIN', NULL, NULL, NULL, '122.2.104.211', NULL, '2026-04-23 13:15:00'),
+(205, 1, 'LOGOUT', NULL, NULL, 'User logged out', '122.2.104.211', NULL, '2026-04-23 13:16:26'),
+(206, 22, 'User registered (pending OTP)', NULL, NULL, NULL, NULL, NULL, '2026-04-23 15:54:36'),
+(207, 23, 'User registered (pending OTP)', NULL, NULL, NULL, NULL, NULL, '2026-04-23 15:56:39'),
+(208, 23, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.68.27', NULL, '2026-04-23 15:58:59'),
+(209, 9, 'LOGIN', NULL, NULL, NULL, '2001:4451:5a9:d300:54bc:7cfd:fbc2:92b4', NULL, '2026-04-23 16:39:49'),
+(210, 9, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4451:5a9:d300:54bc:7cfd:fbc2:92b4', NULL, '2026-04-23 16:40:56'),
+(211, 1, 'LOGIN', NULL, NULL, NULL, '2001:4451:5a9:d300:54bc:7cfd:fbc2:92b4', NULL, '2026-04-23 16:41:03'),
+(212, 1, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4451:5a9:d300:54bc:7cfd:fbc2:92b4', NULL, '2026-04-23 16:41:57'),
+(213, 2, 'LOGIN', NULL, NULL, NULL, '2001:4451:5a9:d300:54bc:7cfd:fbc2:92b4', NULL, '2026-04-23 16:42:06'),
+(214, 1, 'LOGIN', NULL, NULL, NULL, '119.94.188.33', NULL, '2026-04-30 04:16:13'),
+(215, 1, 'LOGOUT', NULL, NULL, 'User logged out', '119.94.188.33', NULL, '2026-04-30 04:31:38'),
+(216, 9, 'LOGIN', NULL, NULL, NULL, '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 05:32:09'),
+(217, 9, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 05:32:28'),
+(218, 9, 'LOGIN', NULL, NULL, NULL, '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 05:32:42'),
+(219, 9, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 05:32:48'),
+(220, 2, 'LOGIN', NULL, NULL, NULL, '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 05:33:02'),
+(221, 2, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 05:34:31'),
+(222, 1, 'LOGIN', NULL, NULL, NULL, '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 09:28:12'),
+(223, 1, 'LOGIN', NULL, NULL, NULL, '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 09:28:12'),
+(224, 9, 'LOGIN', NULL, NULL, NULL, '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 09:29:18'),
+(225, 9, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 09:29:27'),
+(226, 1, 'LOGIN', NULL, NULL, NULL, '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 09:30:04'),
+(227, 1, 'UPDATE', NULL, NULL, 'Updated appointment #22 status: SCHEDULED → SCHEDULED', '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 09:30:19'),
+(228, 1, 'UPDATE', NULL, NULL, 'Updated appointment #22 status: SCHEDULED → CANCELLED', '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 09:30:25'),
+(229, 1, 'DELETE', NULL, NULL, 'Deleted announcement: TEST (ID: 1)', '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 09:33:15'),
+(230, 1, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 09:33:29'),
+(231, 9, 'LOGIN', NULL, NULL, NULL, '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 09:33:44'),
+(232, 9, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 09:34:33'),
+(233, 2, 'LOGIN', NULL, NULL, NULL, '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 09:34:41'),
+(234, 2, 'LOGIN', NULL, NULL, NULL, '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 09:40:24'),
+(235, 2, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 09:41:04'),
+(236, 9, 'LOGIN', NULL, NULL, NULL, '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 09:41:14'),
+(237, 9, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 09:41:37'),
+(238, 2, 'LOGIN', NULL, NULL, NULL, '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 09:41:48'),
+(239, 2, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 09:44:17'),
+(240, 1, 'LOGIN', NULL, NULL, NULL, '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 09:44:55'),
+(241, 1, 'UPDATE', NULL, NULL, 'Updated clinic settings: clinic_name, clinic_phone, clinic_email, clinic_address, appointment_reminder_hours, contact_address, contact_phone, contact_email, contact_hours', '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 09:45:39'),
+(242, 1, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 09:45:44'),
+(243, 9, 'LOGIN', NULL, NULL, NULL, '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 09:47:35'),
+(244, 9, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 09:47:43'),
+(245, 1, 'LOGIN', NULL, NULL, NULL, '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 10:37:05'),
+(246, 1, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 10:40:11'),
+(247, 2, 'LOGIN', NULL, NULL, NULL, '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 10:40:21'),
+(248, 2, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 10:40:46'),
+(249, 9, 'LOGIN', NULL, NULL, NULL, '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 10:40:54'),
+(250, 9, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 10:42:06'),
+(251, 9, 'LOGIN', NULL, NULL, NULL, '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 10:42:30'),
+(252, 9, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 10:43:18'),
+(253, 2, 'LOGIN', NULL, NULL, NULL, '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 10:43:28'),
+(254, 2, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 10:44:06'),
+(255, 9, 'LOGIN', NULL, NULL, NULL, '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 10:44:17'),
+(256, 9, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 10:44:41'),
+(257, 2, 'LOGIN', NULL, NULL, NULL, '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 10:44:54'),
+(258, 2, 'LOGIN', NULL, NULL, NULL, '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 10:48:47'),
+(259, 2, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 11:14:23'),
+(260, 2, 'LOGIN', NULL, NULL, NULL, '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 11:20:22'),
+(261, 2, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 11:21:15'),
+(262, 9, 'LOGIN', NULL, NULL, NULL, '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 11:21:25'),
+(263, 9, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 11:26:18'),
+(264, 2, 'LOGIN', NULL, NULL, NULL, '2001:4451:504:1300:e1fc:2da5:acf4:363f', NULL, '2026-04-30 11:26:55'),
+(265, 1, 'LOGIN', NULL, NULL, NULL, '120.29.72.11', NULL, '2026-05-01 07:17:17'),
+(266, 1, 'LOGIN', NULL, NULL, NULL, '120.29.72.11', NULL, '2026-05-01 07:17:19'),
+(267, 1, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.72.11', NULL, '2026-05-01 07:18:59'),
+(268, 2, 'LOGIN', NULL, NULL, NULL, '120.29.72.11', NULL, '2026-05-01 07:19:36'),
+(269, 2, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.72.11', NULL, '2026-05-01 07:21:48'),
+(270, 9, 'LOGIN', NULL, NULL, NULL, '120.29.72.11', NULL, '2026-05-01 07:23:20'),
+(271, 9, 'LOGIN', NULL, NULL, NULL, '122.2.104.211', NULL, '2026-05-01 13:42:28'),
+(272, 24, 'User registered (pending OTP)', NULL, NULL, NULL, NULL, NULL, '2026-05-02 19:39:35'),
+(273, 9, 'LOGIN', NULL, NULL, NULL, '2001:4451:5f8:1a00:9806:d341:4b81:d554', NULL, '2026-05-02 19:57:15'),
+(274, 9, 'LOGIN', NULL, NULL, NULL, '2001:4451:5f8:1a00:a872:f426:6238:b446', NULL, '2026-05-03 05:19:11'),
+(275, 9, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4451:5f8:1a00:a872:f426:6238:b446', NULL, '2026-05-03 05:43:34'),
+(276, 2, 'LOGIN', NULL, NULL, NULL, '2001:4451:5f8:1a00:a872:f426:6238:b446', NULL, '2026-05-03 05:43:56'),
+(277, 2, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4451:5f8:1a00:a872:f426:6238:b446', NULL, '2026-05-03 05:56:50'),
+(278, 1, 'LOGIN', NULL, NULL, NULL, '2001:4451:5f8:1a00:a872:f426:6238:b446', NULL, '2026-05-03 05:56:59'),
+(279, 1, 'LOGIN', NULL, NULL, NULL, '2001:4451:5f8:1a00:a872:f426:6238:b446', NULL, '2026-05-03 05:58:21'),
+(280, 1, 'LOGIN', NULL, NULL, NULL, '124.104.174.51', NULL, '2026-05-07 06:55:16'),
+(281, 1, 'UPDATE', NULL, NULL, 'Updated user ID: 9 (CHRISTIAN GEREMILLO, PARENT)', '124.104.174.51', NULL, '2026-05-07 06:57:45'),
+(282, 1, 'UPDATE', NULL, NULL, 'Updated user ID: 9 (CHRISTIAN GEREMILLO, PARENT)', '124.104.174.51', NULL, '2026-05-07 06:58:47'),
+(283, 9, 'LOGIN', NULL, NULL, NULL, '124.104.174.51', NULL, '2026-05-07 06:58:58'),
+(284, 1, 'LOGOUT', NULL, NULL, 'User logged out', '124.104.174.51', NULL, '2026-05-07 07:10:59'),
+(285, 2, 'LOGIN', NULL, NULL, NULL, '124.104.174.51', NULL, '2026-05-07 07:23:57'),
+(286, 2, 'LOGOUT', NULL, NULL, 'User logged out', '124.104.174.51', NULL, '2026-05-07 07:33:00'),
+(287, 9, 'LOGIN', NULL, NULL, NULL, '124.104.174.51', NULL, '2026-05-07 07:33:11'),
+(288, 9, 'LOGOUT', NULL, NULL, 'User logged out', '124.104.174.51', NULL, '2026-05-07 07:33:42'),
+(289, 2, 'LOGIN', NULL, NULL, NULL, '124.104.174.51', NULL, '2026-05-07 07:33:50'),
+(290, 2, 'LOGOUT', NULL, NULL, 'User logged out', '124.104.174.51', NULL, '2026-05-07 07:34:27'),
+(291, 1, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 03:55:59'),
+(292, 1, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 03:57:04'),
+(293, 25, 'User registered (pending OTP)', NULL, NULL, NULL, NULL, NULL, '2026-05-08 04:08:38'),
+(294, 25, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 04:49:18'),
+(295, 2, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 04:49:38'),
+(296, 2, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 05:03:23'),
+(297, 1, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 05:03:37'),
+(298, 1, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 05:12:10'),
+(299, 26, 'User registered (pending OTP)', NULL, NULL, NULL, NULL, NULL, '2026-05-08 05:15:52'),
+(300, 26, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 05:21:43'),
+(301, 26, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 05:22:00'),
+(302, 26, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 05:22:53'),
+(303, 2, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 05:23:11'),
+(304, 2, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 05:29:41'),
+(305, 26, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 05:29:53'),
+(306, 26, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 05:31:05'),
+(307, 2, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 05:31:17'),
+(308, 2, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 05:32:16'),
+(309, 26, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 05:32:27'),
+(310, 26, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 05:33:10'),
+(311, 2, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 05:33:19'),
+(312, 2, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 05:34:24'),
+(313, 26, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 05:34:36'),
+(314, 26, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 05:35:22'),
+(315, 2, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 05:35:32'),
+(316, 2, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 05:36:24'),
+(317, 2, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 05:37:31'),
+(318, 26, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 05:37:43'),
+(319, 26, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 05:39:48'),
+(320, 2, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 05:40:00'),
+(321, 2, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 05:41:30'),
+(322, 26, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 05:41:43'),
+(323, 26, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 05:42:29'),
+(324, 2, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 05:42:41'),
+(325, 2, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 05:43:01'),
+(326, 26, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 05:43:19'),
+(327, 26, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 05:44:08'),
+(328, 2, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 05:44:23'),
+(329, 2, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 05:46:20'),
+(330, 26, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 05:46:31'),
+(331, 26, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 05:48:59'),
+(332, 26, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 05:49:10'),
+(333, 26, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 05:49:38'),
+(334, 26, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 05:50:03'),
+(335, 26, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 05:51:12'),
+(336, 26, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 05:51:20'),
+(337, 26, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 06:00:43'),
+(338, 2, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 06:00:56'),
+(339, 2, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 06:03:09'),
+(340, 2, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 06:03:24'),
+(341, 2, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 06:03:59'),
+(342, 26, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 06:04:10'),
+(343, 26, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 06:05:17'),
+(344, 1, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 06:08:25'),
+(345, 1, 'UPDATE', NULL, NULL, 'Changed user status: Jansen Leoric Tolosa (PARENT) to inactive', '120.29.86.177', NULL, '2026-05-08 06:09:31'),
+(346, 1, 'UPDATE', NULL, NULL, 'Updated user ID: 25 (BOTCHOG Tolosa, PARENT)', '120.29.86.177', NULL, '2026-05-08 06:10:06'),
+(347, 1, 'UPDATE', NULL, NULL, 'Changed user status: BOTCHOG Tolosa (PARENT) to active', '120.29.86.177', NULL, '2026-05-08 06:10:19'),
+(348, 1, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 06:10:23'),
+(349, 25, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 06:10:45'),
+(350, 25, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 06:11:08'),
+(351, 1, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 06:11:19'),
+(352, 1, 'CREATE', NULL, NULL, 'Created new user: sensen tolosaaa (PARENT) - ID: 27', '120.29.86.177', NULL, '2026-05-08 06:12:37'),
+(353, 1, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 06:12:43'),
+(354, 27, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 06:12:57'),
+(355, 27, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 06:13:07'),
+(356, 9, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 07:41:56'),
+(357, 9, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 07:48:46'),
+(358, 2, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 07:49:01'),
+(359, 2, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 07:52:48'),
+(360, 2, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 07:53:40'),
+(361, 1, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 07:54:01'),
+(362, 1, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 07:54:32'),
+(363, 2, 'LOGIN', NULL, NULL, NULL, '120.29.86.177', NULL, '2026-05-08 07:54:56'),
+(364, 2, 'LOGOUT', NULL, NULL, 'User logged out', '120.29.86.177', NULL, '2026-05-08 07:55:50'),
+(365, 9, 'LOGIN', NULL, NULL, NULL, '2001:4451:5e5:1d00:7199:b0f6:6473:c75e', NULL, '2026-05-08 12:53:00'),
+(366, 9, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4451:5e5:1d00:7199:b0f6:6473:c75e', NULL, '2026-05-08 12:53:15'),
+(367, 9, 'LOGIN', NULL, NULL, NULL, '2001:4451:5e5:1d00:7199:b0f6:6473:c75e', NULL, '2026-05-08 12:57:27'),
+(368, 9, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4451:5e5:1d00:7199:b0f6:6473:c75e', NULL, '2026-05-08 12:59:30'),
+(369, 2, 'LOGIN', NULL, NULL, NULL, '2001:4451:5e5:1d00:7199:b0f6:6473:c75e', NULL, '2026-05-08 12:59:40'),
+(370, 1, 'LOGIN', NULL, NULL, NULL, '2001:4451:5e5:1d00:7199:b0f6:6473:c75e', NULL, '2026-05-08 13:03:00'),
+(371, 1, 'UPDATE', NULL, NULL, 'Updated user ID: 10 (JUSTIN ARCIAGA, DOCTOR)', '2001:4451:5e5:1d00:7199:b0f6:6473:c75e', NULL, '2026-05-08 13:04:06'),
+(372, 1, 'UPDATE', NULL, NULL, 'Changed service status: mlmo to Inactive', '2001:4451:5e5:1d00:7199:b0f6:6473:c75e', NULL, '2026-05-08 13:06:35'),
+(373, 1, 'UPDATE', NULL, NULL, 'Changed service status: mlmo to Active', '2001:4451:5e5:1d00:7199:b0f6:6473:c75e', NULL, '2026-05-08 13:06:46'),
+(374, 1, 'UPDATE', NULL, NULL, 'Changed user status: JUSTIN ARCIAGA (DOCTOR) to active', '2001:4451:5e5:1d00:7199:b0f6:6473:c75e', NULL, '2026-05-08 13:07:14'),
+(375, 1, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4451:5e5:1d00:7199:b0f6:6473:c75e', NULL, '2026-05-08 13:07:48'),
+(376, 10, 'LOGIN', NULL, NULL, NULL, '2001:4451:5e5:1d00:7199:b0f6:6473:c75e', NULL, '2026-05-08 13:08:03'),
+(377, 10, 'LOGOUT', NULL, NULL, 'User logged out', '2001:4451:5e5:1d00:7199:b0f6:6473:c75e', NULL, '2026-05-08 13:08:16'),
+(378, 28, 'User registered (pending OTP)', NULL, NULL, NULL, NULL, NULL, '2026-05-08 13:29:13'),
+(379, 28, 'LOGOUT', NULL, NULL, 'User logged out', '111.125.107.97', NULL, '2026-05-08 13:33:57'),
+(380, 1, 'LOGIN', NULL, NULL, NULL, '111.125.107.97', NULL, '2026-05-08 13:34:17'),
+(381, 1, 'LOGOUT', NULL, NULL, 'User logged out', '111.125.107.97', NULL, '2026-05-08 13:37:39'),
+(382, 28, 'LOGIN', NULL, NULL, NULL, '111.125.107.97', NULL, '2026-05-08 13:38:09'),
+(383, 28, 'LOGOUT', NULL, NULL, 'User logged out', '111.125.107.97', NULL, '2026-05-08 13:40:22'),
+(384, 1, 'LOGIN', NULL, NULL, NULL, '111.125.107.97', NULL, '2026-05-08 13:42:39'),
+(385, 1, 'LOGOUT', NULL, NULL, 'User logged out', '111.125.107.97', NULL, '2026-05-08 13:43:45'),
+(386, 2, 'LOGIN', NULL, NULL, NULL, '111.125.107.97', NULL, '2026-05-08 13:44:33'),
+(387, 2, 'LOGOUT', NULL, NULL, 'User logged out', '111.125.107.97', NULL, '2026-05-08 13:46:54'),
+(388, 26, 'LOGIN', NULL, NULL, NULL, '161.49.210.123', NULL, '2026-05-09 02:37:51'),
+(389, 26, 'LOGOUT', NULL, NULL, 'User logged out', '161.49.210.123', NULL, '2026-05-09 02:38:21'),
+(390, 26, 'LOGIN', NULL, NULL, NULL, '161.49.210.123', NULL, '2026-05-09 03:06:00'),
+(391, 26, 'LOGOUT', NULL, NULL, 'User logged out', '161.49.210.123', NULL, '2026-05-09 03:12:30'),
+(392, 2, 'LOGIN', NULL, NULL, NULL, '161.49.210.123', NULL, '2026-05-09 03:13:58'),
+(393, 2, 'LOGOUT', NULL, NULL, 'User logged out', '161.49.210.123', NULL, '2026-05-09 03:19:43'),
+(394, 29, 'User registered (pending OTP)', NULL, NULL, NULL, NULL, NULL, '2026-05-09 04:32:33'),
+(395, 30, 'User registered (pending OTP)', NULL, NULL, NULL, NULL, NULL, '2026-05-09 04:35:54'),
+(396, 30, 'LOGOUT', NULL, NULL, 'User logged out', '161.49.210.123', NULL, '2026-05-09 04:43:47'),
+(397, 1, 'LOGIN', NULL, NULL, NULL, '161.49.210.123', NULL, '2026-05-09 04:44:20'),
+(398, 1, 'UPDATE', NULL, NULL, 'Updated appointment #34 status: SCHEDULED → COMPLETED', '161.49.210.123', NULL, '2026-05-09 04:52:43'),
+(399, 1, 'LOGOUT', NULL, NULL, 'User logged out', '161.49.210.123', NULL, '2026-05-09 04:54:38'),
+(400, 26, 'LOGIN', NULL, NULL, NULL, '161.49.210.123', NULL, '2026-05-09 04:55:01'),
+(401, 26, 'LOGOUT', NULL, NULL, 'User logged out', '161.49.210.123', NULL, '2026-05-09 04:55:10'),
+(402, 2, 'LOGIN', NULL, NULL, NULL, '161.49.210.123', NULL, '2026-05-09 04:57:44'),
+(403, 2, 'LOGOUT', NULL, NULL, 'User logged out', '161.49.210.123', NULL, '2026-05-09 05:06:42'),
+(404, 1, 'LOGIN', NULL, NULL, NULL, '161.49.210.123', NULL, '2026-05-09 05:06:57'),
+(405, 1, 'CREATE', NULL, NULL, 'Created new user: Rodney Pogi (DOCTOR) - ID: 31', '161.49.210.123', NULL, '2026-05-09 05:08:44'),
+(406, 1, 'LOGOUT', NULL, NULL, 'User logged out', '161.49.210.123', NULL, '2026-05-09 05:09:16'),
+(407, 31, 'LOGIN', NULL, NULL, NULL, '161.49.210.123', NULL, '2026-05-09 05:10:33'),
+(408, 31, 'LOGOUT', NULL, NULL, 'User logged out', '161.49.210.123', NULL, '2026-05-09 05:15:32'),
+(409, 4, 'LOGIN', NULL, NULL, NULL, '161.49.210.123', NULL, '2026-05-09 05:16:04'),
+(410, 2, 'LOGIN', NULL, NULL, NULL, '161.49.210.123', NULL, '2026-05-09 05:17:03'),
+(411, 9, 'LOGIN', NULL, NULL, NULL, '124.104.213.156', NULL, '2026-05-12 08:28:04'),
+(412, 9, 'LOGOUT', NULL, NULL, 'User logged out', '124.104.213.156', NULL, '2026-05-12 08:37:13'),
+(413, 2, 'LOGIN', NULL, NULL, NULL, '124.104.213.156', NULL, '2026-05-12 08:37:25'),
+(414, 2, 'LOGIN', NULL, NULL, NULL, '119.94.180.197', NULL, '2026-05-14 02:12:33'),
+(415, 2, 'LOGOUT', NULL, NULL, 'User logged out', '119.94.180.197', NULL, '2026-05-14 02:13:21'),
+(416, 1, 'LOGIN', NULL, NULL, NULL, '119.94.180.197', NULL, '2026-05-14 02:14:17'),
+(417, 1, 'LOGOUT', NULL, NULL, 'User logged out', '119.94.180.197', NULL, '2026-05-14 02:14:25');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `announcements`
+--
+
+CREATE TABLE `announcements` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `title` varchar(200) NOT NULL,
+  `content` text NOT NULL,
+  `category` enum('GENERAL','MAINTENANCE','HEALTH_ADVISORY','EVENT','PROMOTION') NOT NULL DEFAULT 'GENERAL',
+  `priority` enum('LOW','NORMAL','HIGH','URGENT') NOT NULL DEFAULT 'NORMAL',
+  `is_active` tinyint(1) NOT NULL DEFAULT 1,
+  `published_at` timestamp NULL DEFAULT NULL,
+  `expires_at` timestamp NULL DEFAULT NULL,
+  `created_by` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `announcements`
+--
+
+INSERT INTO `announcements` (`id`, `title`, `content`, `category`, `priority`, `is_active`, `published_at`, `expires_at`, `created_by`, `created_at`, `updated_at`) VALUES
+(2, 'Vaccination', 'N/A', 'PROMOTION', 'NORMAL', 1, '2026-04-22 04:39:51', NULL, 1, '2026-04-22 04:39:51', '2026-04-22 04:39:51');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `appointments`
+--
+
+CREATE TABLE `appointments` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `patient_id` int(10) UNSIGNED NOT NULL,
+  `doctor_id` int(10) UNSIGNED NOT NULL,
+  `appointment_date` date NOT NULL,
+  `appointment_time` time NOT NULL,
+  `end_time` time DEFAULT NULL,
+  `type` enum('CONSULTATION','VACCINATION','CHECKUP','FOLLOW_UP','EMERGENCY','OTHER') NOT NULL DEFAULT 'CONSULTATION',
+  `status` enum('SCHEDULED','CONFIRMED','IN_PROGRESS','COMPLETED','CANCELLED','NO_SHOW','WAITLISTED','CANCELLATION_REQUESTED') NOT NULL DEFAULT 'SCHEDULED',
+  `reason` text DEFAULT NULL,
+  `notes` text DEFAULT NULL,
+  `duration` int(10) UNSIGNED NOT NULL DEFAULT 30 COMMENT 'in minutes',
+  `cancellation_reason` text DEFAULT NULL,
+  `cancellation_requested_by` int(10) UNSIGNED DEFAULT NULL COMMENT 'User who requested the cancellation',
+  `cancellation_requested_at` timestamp NULL DEFAULT NULL,
+  `cancelled_at` timestamp NULL DEFAULT NULL,
+  `created_by` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `appointments`
+--
+
+INSERT INTO `appointments` (`id`, `patient_id`, `doctor_id`, `appointment_date`, `appointment_time`, `end_time`, `type`, `status`, `reason`, `notes`, `duration`, `cancellation_reason`, `cancellation_requested_by`, `cancellation_requested_at`, `cancelled_at`, `created_by`, `created_at`, `updated_at`) VALUES
+(8, 1, 2, '2026-03-25', '10:30:00', NULL, 'CONSULTATION', 'CONFIRMED', '', NULL, 30, NULL, NULL, NULL, NULL, 9, '2026-03-13 00:30:32', '2026-04-17 04:58:14'),
+(9, 1, 2, '2026-04-24', '14:00:00', NULL, 'CONSULTATION', 'COMPLETED', '', NULL, 30, NULL, NULL, NULL, NULL, 9, '2026-04-17 01:11:42', '2026-04-17 01:13:29'),
+(14, 1, 3, '2026-04-22', '11:00:00', NULL, 'CONSULTATION', 'SCHEDULED', NULL, NULL, 30, NULL, NULL, NULL, NULL, 9, '2026-04-17 04:12:05', '2026-04-17 04:12:05'),
+(15, 1, 2, '2026-04-23', '11:00:00', NULL, 'CONSULTATION', 'COMPLETED', NULL, NULL, 30, NULL, NULL, NULL, NULL, 9, '2026-04-17 04:12:16', '2026-04-20 14:14:13'),
+(16, 1, 2, '2026-04-17', '16:30:00', NULL, 'VACCINATION', 'CONFIRMED', '', NULL, 30, NULL, NULL, NULL, NULL, 9, '2026-04-17 05:01:46', '2026-04-17 05:02:02'),
+(17, 2, 3, '2026-04-23', '14:30:00', NULL, '', 'SCHEDULED', '', NULL, 30, NULL, NULL, NULL, NULL, 11, '2026-04-17 11:45:37', '2026-04-17 11:45:37'),
+(18, 3, 2, '2026-04-27', '14:00:00', NULL, 'CONSULTATION', 'CONFIRMED', '', NULL, 30, NULL, NULL, NULL, NULL, 17, '2026-04-20 14:05:08', '2026-04-20 14:17:06'),
+(19, 4, 2, '2026-04-23', '10:00:00', NULL, 'CHECKUP', 'SCHEDULED', '', NULL, 30, NULL, NULL, NULL, NULL, 18, '2026-04-20 15:32:18', '2026-04-20 15:32:18'),
+(20, 5, 3, '2026-04-22', '12:30:00', NULL, 'CONSULTATION', 'SCHEDULED', 'nilalagnat yung left kamay', NULL, 30, NULL, NULL, NULL, NULL, 19, '2026-04-21 02:31:22', '2026-04-21 02:31:22'),
+(21, 1, 2, '2026-04-27', '08:00:00', NULL, 'VACCINATION', 'CONFIRMED', '', NULL, 30, NULL, NULL, NULL, NULL, 9, '2026-04-22 04:25:11', '2026-04-22 04:35:07'),
+(22, 6, 3, '2026-04-27', '13:30:00', NULL, 'VACCINATION', 'CANCELLED', 'rashes', NULL, 30, NULL, NULL, NULL, NULL, 23, '2026-04-23 15:58:47', '2026-04-30 09:30:25'),
+(23, 1, 2, '2026-05-01', '10:00:00', NULL, 'CONSULTATION', 'CANCELLED', '', ' Rejection reason: closed', 30, NULL, NULL, NULL, NULL, 9, '2026-04-30 10:42:45', '2026-05-08 06:01:31'),
+(24, 1, 2, '2026-05-01', '10:30:00', NULL, 'CONSULTATION', 'CANCELLED', '', ' Rejection reason: test', 30, NULL, NULL, NULL, NULL, 9, '2026-04-30 11:21:47', '2026-05-08 04:50:09'),
+(25, 1, 3, '2026-05-09', '10:00:00', NULL, 'CHECKUP', 'SCHEDULED', 'checkup', NULL, 30, NULL, NULL, NULL, NULL, 9, '2026-05-01 07:24:22', '2026-05-01 07:24:22'),
+(26, 7, 2, '2026-05-25', '02:30:00', NULL, 'CHECKUP', 'COMPLETED', '', NULL, 30, NULL, NULL, NULL, NULL, 25, '2026-05-08 04:29:16', '2026-05-08 05:41:10'),
+(27, 8, 2, '2026-05-08', '10:00:00', NULL, '', 'COMPLETED', 'obese', NULL, 30, NULL, NULL, NULL, NULL, 26, '2026-05-08 05:22:44', '2026-05-08 05:37:26'),
+(28, 8, 2, '2026-05-08', '09:00:00', NULL, 'VACCINATION', 'COMPLETED', '', NULL, 30, NULL, NULL, NULL, NULL, 26, '2026-05-08 05:31:01', '2026-05-08 05:37:25'),
+(29, 8, 2, '2026-05-08', '11:00:00', NULL, 'VACCINATION', 'COMPLETED', '', NULL, 30, NULL, NULL, NULL, NULL, 26, '2026-05-08 05:38:36', '2026-05-08 05:41:11'),
+(30, 8, 2, '2026-05-08', '12:00:00', NULL, 'CONSULTATION', 'SCHEDULED', '', NULL, 30, NULL, NULL, NULL, NULL, 26, '2026-05-08 06:04:32', '2026-05-08 06:04:32'),
+(31, 8, 2, '2026-05-08', '12:30:00', NULL, 'CONSULTATION', 'SCHEDULED', '', NULL, 30, NULL, NULL, NULL, NULL, 26, '2026-05-08 06:05:14', '2026-05-08 06:05:14'),
+(32, 9, 3, '2026-05-09', '12:00:00', NULL, 'CONSULTATION', 'SCHEDULED', '', NULL, 30, NULL, NULL, NULL, NULL, 28, '2026-05-08 13:38:26', '2026-05-08 13:38:26'),
+(33, 9, 10, '2026-05-20', '16:00:00', NULL, 'VACCINATION', 'SCHEDULED', '', NULL, 30, NULL, NULL, NULL, NULL, 28, '2026-05-08 13:39:31', '2026-05-08 13:39:31'),
+(34, 10, 10, '2026-05-14', '13:00:00', NULL, 'VACCINATION', 'COMPLETED', '', NULL, 30, NULL, NULL, NULL, NULL, 29, '2026-05-09 04:38:06', '2026-05-09 04:52:43'),
+(35, 10, 10, '2026-05-09', '13:30:00', NULL, 'CONSULTATION', 'SCHEDULED', '', NULL, 30, NULL, NULL, NULL, NULL, 29, '2026-05-09 04:53:55', '2026-05-09 04:53:55'),
+(36, 10, 2, '2026-05-09', '13:00:00', NULL, 'VACCINATION', 'SCHEDULED', '', NULL, 30, NULL, NULL, NULL, NULL, 29, '2026-05-09 04:57:07', '2026-05-09 04:57:07');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `appointment_waitlist`
+--
+
+CREATE TABLE `appointment_waitlist` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `patient_id` int(10) UNSIGNED NOT NULL,
+  `doctor_id` int(10) UNSIGNED NOT NULL,
+  `preferred_date` date NOT NULL,
+  `preferred_time_start` time DEFAULT NULL,
+  `preferred_time_end` time DEFAULT NULL,
+  `type` enum('CONSULTATION','VACCINATION','CHECKUP','FOLLOW_UP','OTHER') NOT NULL DEFAULT 'CONSULTATION',
+  `reason` text DEFAULT NULL,
+  `status` enum('WAITING','OFFERED','ACCEPTED','EXPIRED','CANCELLED') NOT NULL DEFAULT 'WAITING',
+  `notified_at` timestamp NULL DEFAULT NULL,
+  `expires_at` timestamp NULL DEFAULT NULL,
+  `created_by` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `clinic_settings`
+--
+
+CREATE TABLE `clinic_settings` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `setting_key` varchar(100) NOT NULL,
+  `setting_value` text DEFAULT NULL,
+  `setting_type` enum('STRING','INTEGER','BOOLEAN','JSON') NOT NULL DEFAULT 'STRING',
+  `description` varchar(255) DEFAULT NULL,
+  `updated_by` int(10) UNSIGNED DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `clinic_settings`
+--
+
+INSERT INTO `clinic_settings` (`id`, `setting_key`, `setting_value`, `setting_type`, `description`, `updated_by`, `created_at`, `updated_at`) VALUES
+(1, 'clinic_name', 'PediCare Clinic', 'STRING', 'Name of the clinic', NULL, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(2, 'clinic_phone', '+63 917 123 4567', 'STRING', 'Clinic contact number', NULL, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(3, 'clinic_email', 'info@pedicare.com', 'STRING', 'Clinic email address', NULL, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(4, 'clinic_address', '123 Health St, Medical City, Metro Manila', 'STRING', 'Clinic physical address', NULL, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(5, 'business_hours', '{\"monday\":{\"open\":\"08:00\",\"close\":\"17:00\"},\"tuesday\":{\"open\":\"08:00\",\"close\":\"17:00\"},\"wednesday\":{\"open\":\"08:00\",\"close\":\"17:00\"},\"thursday\":{\"open\":\"08:00\",\"close\":\"17:00\"},\"friday\":{\"open\":\"08:00\",\"close\":\"17:00\"},\"saturday\":{\"open\":\"09:00\",\"close\":\"13:00\"},\"sunday\":null}', 'JSON', 'Weekly business hours', NULL, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(6, 'appointment_slot_duration', '30', 'INTEGER', 'Default appointment slot in minutes', NULL, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(7, 'max_advance_booking_days', '60', 'INTEGER', 'Maximum days in advance for booking', NULL, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(8, 'cancellation_hours', '24', 'INTEGER', 'Minimum hours before appointment for free cancellation', NULL, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(9, 'smtp_host', '', 'STRING', 'SMTP server hostname', NULL, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(10, 'smtp_port', '587', 'INTEGER', 'SMTP server port', NULL, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(11, 'smtp_username', '', 'STRING', 'SMTP username', NULL, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(12, 'smtp_password', '', 'STRING', 'SMTP password', NULL, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(13, 'sms_provider', '', 'STRING', 'SMS gateway provider', NULL, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(14, 'sms_api_key', '', 'STRING', 'SMS gateway API key', NULL, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(16, 'contact_address', 'Calulut, CSFP Pampanga', 'STRING', 'Footer address shown on the landing page', NULL, '2026-04-19 11:35:28', '2026-04-30 09:45:39'),
+(17, 'contact_phone', '+63 931 709 3056', 'STRING', 'Footer phone shown on the landing page', NULL, '2026-04-19 11:35:28', '2026-04-30 09:45:39'),
+(18, 'contact_email', 'thepeonyflower@alagapp.site', 'STRING', 'Footer email shown on the landing page', NULL, '2026-04-19 11:35:28', '2026-04-19 11:35:28'),
+(19, 'contact_hours', 'Mon – Sat: 10:00 AM – 6:00 PM', 'STRING', 'Footer hours shown on the landing page', NULL, '2026-04-19 11:35:28', '2026-04-30 09:45:39'),
+(20, 'smtp_from_name', 'AlagApp Clinic', 'STRING', 'From-name shown on outbound email', NULL, '2026-04-19 11:35:28', '2026-04-19 11:35:28'),
+(28, 'appointment_reminder_hours', '24', 'STRING', NULL, NULL, '2026-04-30 09:45:39', '2026-04-30 09:45:39');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `consultation_notes`
+--
+
+CREATE TABLE `consultation_notes` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `patient_id` int(10) UNSIGNED NOT NULL,
+  `doctor_id` int(10) UNSIGNED NOT NULL,
+  `appointment_id` int(10) UNSIGNED DEFAULT NULL,
+  `consultation_date` date NOT NULL,
+  `chief_complaint` text DEFAULT NULL,
+  `symptoms` text DEFAULT NULL,
+  `diagnosis` text DEFAULT NULL,
+  `treatment_plan` text DEFAULT NULL,
+  `notes` text DEFAULT NULL,
+  `temperature` decimal(4,1) DEFAULT NULL,
+  `blood_pressure` varchar(20) DEFAULT NULL,
+  `heart_rate` int(10) UNSIGNED DEFAULT NULL,
+  `respiratory_rate` int(10) UNSIGNED DEFAULT NULL,
+  `height` decimal(5,2) DEFAULT NULL,
+  `weight` decimal(5,2) DEFAULT NULL,
+  `follow_up_date` date DEFAULT NULL,
+  `is_visible_to_parent` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `consultation_notes`
+--
+
+INSERT INTO `consultation_notes` (`id`, `patient_id`, `doctor_id`, `appointment_id`, `consultation_date`, `chief_complaint`, `symptoms`, `diagnosis`, `treatment_plan`, `notes`, `temperature`, `blood_pressure`, `heart_rate`, `respiratory_rate`, `height`, `weight`, `follow_up_date`, `is_visible_to_parent`, `created_at`, `updated_at`) VALUES
+(1, 4, 2, NULL, '2026-04-20', '', '', '213321', '2213321', '213231', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2026-04-20 15:33:52', '2026-04-20 15:33:52'),
+(2, 1, 2, NULL, '2026-04-22', '', '', 'Cold', 'N/A', 'N/A', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2026-04-22 04:30:39', '2026-04-22 04:30:39'),
+(3, 8, 2, NULL, '2026-05-08', '', '', 'obese', 'surgery asap patient can\'t breath through overloaded fat', 'must eat less', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2026-05-08 05:27:17', '2026-05-08 05:27:17');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `developmental_milestones`
+--
+
+CREATE TABLE `developmental_milestones` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `patient_id` int(10) UNSIGNED NOT NULL,
+  `milestone_type` enum('MOTOR','LANGUAGE','SOCIAL','COGNITIVE') NOT NULL,
+  `milestone_description` varchar(255) NOT NULL,
+  `achieved_date` date NOT NULL,
+  `expected_age_months` int(11) NOT NULL,
+  `achieved_age_months` int(11) NOT NULL,
+  `notes` text DEFAULT NULL,
+  `recorded_by` int(10) UNSIGNED DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `doctor_availability`
+--
+
+CREATE TABLE `doctor_availability` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `doctor_id` int(10) UNSIGNED NOT NULL,
+  `day_of_week` enum('MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY','SUNDAY') DEFAULT NULL,
+  `specific_date` date DEFAULT NULL,
+  `start_time` time NOT NULL,
+  `end_time` time NOT NULL,
+  `slot_duration` int(10) UNSIGNED NOT NULL DEFAULT 30,
+  `max_patients` int(10) UNSIGNED NOT NULL DEFAULT 10,
+  `availability_type` enum('RECURRING','AVAILABLE','UNAVAILABLE') NOT NULL DEFAULT 'RECURRING',
+  `reason` varchar(255) DEFAULT NULL,
+  `is_all_day` tinyint(1) NOT NULL DEFAULT 0,
+  `active` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `doctor_availability`
+--
+
+INSERT INTO `doctor_availability` (`id`, `doctor_id`, `day_of_week`, `specific_date`, `start_time`, `end_time`, `slot_duration`, `max_patients`, `availability_type`, `reason`, `is_all_day`, `active`, `created_at`, `updated_at`) VALUES
+(1, 2, 'MONDAY', NULL, '08:00:00', '17:00:00', 30, 10, 'RECURRING', NULL, 0, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(2, 2, 'TUESDAY', NULL, '08:00:00', '17:00:00', 30, 10, 'RECURRING', NULL, 0, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(3, 2, 'WEDNESDAY', NULL, '08:00:00', '17:00:00', 30, 10, 'RECURRING', NULL, 0, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(4, 2, 'THURSDAY', NULL, '08:00:00', '17:00:00', 30, 10, 'RECURRING', NULL, 0, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(5, 2, 'FRIDAY', NULL, '08:00:00', '17:00:00', 30, 10, 'RECURRING', NULL, 0, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(6, 2, 'SATURDAY', NULL, '09:00:00', '13:00:00', 30, 10, 'RECURRING', NULL, 0, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(7, 3, 'MONDAY', NULL, '09:00:00', '17:00:00', 30, 10, 'RECURRING', NULL, 0, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(8, 3, 'TUESDAY', NULL, '09:00:00', '17:00:00', 30, 10, 'RECURRING', NULL, 0, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(9, 3, 'WEDNESDAY', NULL, '09:00:00', '17:00:00', 30, 10, 'RECURRING', NULL, 0, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(10, 3, 'THURSDAY', NULL, '09:00:00', '17:00:00', 30, 10, 'RECURRING', NULL, 0, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(11, 3, 'FRIDAY', NULL, '09:00:00', '17:00:00', 30, 10, 'RECURRING', NULL, 0, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(12, 3, 'SATURDAY', NULL, '09:00:00', '13:00:00', 30, 10, 'RECURRING', NULL, 0, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(13, 4, 'MONDAY', NULL, '08:00:00', '16:00:00', 30, 10, 'RECURRING', NULL, 0, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(14, 4, 'TUESDAY', NULL, '08:00:00', '16:00:00', 30, 10, 'RECURRING', NULL, 0, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(15, 4, 'WEDNESDAY', NULL, '08:00:00', '16:00:00', 30, 10, 'RECURRING', NULL, 0, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(16, 4, 'THURSDAY', NULL, '08:00:00', '16:00:00', 30, 10, 'RECURRING', NULL, 0, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(17, 4, 'FRIDAY', NULL, '08:00:00', '16:00:00', 30, 10, 'RECURRING', NULL, 0, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(18, 4, 'SATURDAY', NULL, '09:00:00', '13:00:00', 30, 10, 'RECURRING', NULL, 0, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(20, 2, NULL, '2026-04-29', '00:00:00', '23:59:59', 30, 10, 'UNAVAILABLE', '', 1, 1, '2026-04-17 05:04:10', '2026-04-17 05:04:10'),
+(22, 2, NULL, '2026-04-25', '00:00:00', '23:59:59', 30, 10, 'UNAVAILABLE', '', 1, 1, '2026-04-22 00:10:43', '2026-04-22 00:10:43'),
+(24, 2, NULL, '2026-04-28', '00:00:00', '23:59:59', 30, 10, 'UNAVAILABLE', '', 1, 1, '2026-04-22 04:34:25', '2026-04-22 04:34:25');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `doctor_schedules`
+--
+
+CREATE TABLE `doctor_schedules` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `doctor_id` int(10) UNSIGNED NOT NULL,
+  `day_of_week` enum('MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY','SUNDAY') NOT NULL,
+  `start_time` time NOT NULL,
+  `end_time` time NOT NULL,
+  `slot_duration` int(10) UNSIGNED NOT NULL DEFAULT 30 COMMENT 'in minutes',
+  `max_patients` int(10) UNSIGNED NOT NULL DEFAULT 10,
+  `active` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `doctor_schedules`
+--
+
+INSERT INTO `doctor_schedules` (`id`, `doctor_id`, `day_of_week`, `start_time`, `end_time`, `slot_duration`, `max_patients`, `active`, `created_at`, `updated_at`) VALUES
+(1, 2, 'MONDAY', '00:00:00', '17:00:00', 30, 10, 1, '2026-03-13 00:10:14', '2026-05-01 07:20:48'),
+(2, 2, 'TUESDAY', '08:00:00', '17:00:00', 30, 10, 1, '2026-03-13 00:10:14', '2026-04-22 04:34:01'),
+(3, 2, 'WEDNESDAY', '08:00:00', '17:00:00', 30, 10, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(4, 2, 'THURSDAY', '08:00:00', '17:00:00', 30, 10, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(5, 2, 'FRIDAY', '12:00:00', '17:00:00', 30, 10, 1, '2026-03-13 00:10:14', '2026-05-08 06:03:49'),
+(6, 2, 'SATURDAY', '09:00:00', '13:00:00', 30, 10, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(7, 3, 'MONDAY', '09:00:00', '17:00:00', 30, 10, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(8, 3, 'TUESDAY', '09:00:00', '17:00:00', 30, 10, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(9, 3, 'WEDNESDAY', '09:00:00', '17:00:00', 30, 10, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(10, 3, 'THURSDAY', '09:00:00', '17:00:00', 30, 10, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(11, 3, 'FRIDAY', '09:00:00', '17:00:00', 30, 10, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(12, 3, 'SATURDAY', '09:00:00', '13:00:00', 30, 10, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(13, 4, 'MONDAY', '08:00:00', '16:00:00', 30, 10, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(14, 4, 'TUESDAY', '08:00:00', '16:00:00', 30, 10, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(15, 4, 'WEDNESDAY', '08:00:00', '16:00:00', 30, 10, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(16, 4, 'THURSDAY', '08:00:00', '16:00:00', 30, 10, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(17, 4, 'FRIDAY', '08:00:00', '16:00:00', 30, 10, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(18, 4, 'SATURDAY', '09:00:00', '13:00:00', 30, 10, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `growth_records`
+--
+
+CREATE TABLE `growth_records` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `patient_id` int(10) UNSIGNED NOT NULL,
+  `record_date` date NOT NULL,
+  `height` decimal(5,2) NOT NULL,
+  `weight` decimal(5,2) NOT NULL,
+  `head_circumference` decimal(4,2) DEFAULT NULL,
+  `bmi` decimal(4,2) DEFAULT NULL,
+  `height_percentile` decimal(5,2) DEFAULT NULL,
+  `weight_percentile` decimal(5,2) DEFAULT NULL,
+  `notes` text DEFAULT NULL,
+  `recorded_by` int(10) UNSIGNED DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `login_history`
+--
+
+CREATE TABLE `login_history` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `ip_address` varchar(45) NOT NULL,
+  `user_agent` text DEFAULT NULL,
+  `status` enum('SUCCESS','FAILED','LOCKED') NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `medical_certificates`
+--
+
+CREATE TABLE `medical_certificates` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `patient_id` int(10) UNSIGNED NOT NULL,
+  `doctor_id` int(10) UNSIGNED NOT NULL,
+  `appointment_id` int(10) UNSIGNED DEFAULT NULL,
+  `certificate_date` date NOT NULL,
+  `certificate_number` varchar(50) DEFAULT NULL,
+  `purpose` enum('SCHOOL','SPORTS','TRAVEL','WORK','OTHER') NOT NULL DEFAULT 'SCHOOL',
+  `diagnosis` text DEFAULT NULL,
+  `recommendations` text DEFAULT NULL,
+  `valid_from` date NOT NULL,
+  `valid_until` date NOT NULL,
+  `clinic_stamp` varchar(255) DEFAULT NULL,
+  `doctor_signature` varchar(255) DEFAULT NULL,
+  `is_printed` tinyint(1) NOT NULL DEFAULT 0,
+  `printed_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `medical_records`
+--
+
+CREATE TABLE `medical_records` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `patient_id` int(10) UNSIGNED NOT NULL,
+  `doctor_id` int(10) UNSIGNED NOT NULL,
+  `record_date` date NOT NULL,
+  `record_type` enum('CONSULTATION','CHECKUP','FOLLOW_UP','EMERGENCY','OTHER') NOT NULL,
+  `diagnosis` text DEFAULT NULL,
+  `symptoms` text DEFAULT NULL,
+  `temperature` decimal(4,2) DEFAULT NULL,
+  `blood_pressure` varchar(20) DEFAULT NULL,
+  `heart_rate` int(10) UNSIGNED DEFAULT NULL,
+  `respiratory_rate` int(10) UNSIGNED DEFAULT NULL,
+  `height` decimal(5,2) DEFAULT NULL,
+  `weight` decimal(5,2) DEFAULT NULL,
+  `treatment_plan` text DEFAULT NULL,
+  `prescriptions` text DEFAULT NULL,
+  `notes` text DEFAULT NULL,
+  `follow_up_date` date DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `medical_records`
+--
+
+INSERT INTO `medical_records` (`id`, `patient_id`, `doctor_id`, `record_date`, `record_type`, `diagnosis`, `symptoms`, `temperature`, `blood_pressure`, `heart_rate`, `respiratory_rate`, `height`, `weight`, `treatment_plan`, `prescriptions`, `notes`, `follow_up_date`, `created_at`) VALUES
+(1, 3, 2, '2026-04-20', 'CHECKUP', 'Cold', 'High Temperature', 35.00, '120/80', 80, NULL, 111.00, 22.00, 'Biogesic 1 capsule', NULL, '', NULL, '2026-04-20 14:08:53'),
+(2, 4, 2, '2026-04-20', 'CHECKUP', '213321', '32', 25.00, '120/80', 32, NULL, 32.00, 32.00, '23', NULL, '32', NULL, '2026-04-20 15:32:59'),
+(3, 1, 2, '2026-04-22', 'CONSULTATION', 'N/A', 'N/A', 31.00, '120/80', 54, NULL, 111.00, NULL, 'N/A', NULL, '', NULL, '2026-04-22 04:31:26'),
+(4, 8, 2, '2026-05-08', 'EMERGENCY', 'obese', 'obese', 45.00, '180/180', 80, NULL, 170.00, 120.00, 'fat loss', NULL, 'must remove overloaded fat of dael sandiego', NULL, '2026-05-08 05:26:18'),
+(5, 8, 2, '2026-05-08', 'CONSULTATION', 'sda', 'ads', 45.00, '180/180', 120, NULL, 250.00, NULL, 'asd', NULL, '', NULL, '2026-05-08 13:01:15');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notifications`
+--
+
+CREATE TABLE `notifications` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `title` varchar(200) NOT NULL,
+  `message` text NOT NULL,
+  `type` enum('APPOINTMENT','VACCINATION','SYSTEM','REMINDER','ALERT') NOT NULL DEFAULT 'SYSTEM',
+  `channel` enum('IN_APP','EMAIL','SMS','ALL') NOT NULL DEFAULT 'IN_APP',
+  `related_type` varchar(50) DEFAULT NULL COMMENT 'e.g. appointment, prescription',
+  `related_id` int(10) UNSIGNED DEFAULT NULL,
+  `is_read` tinyint(1) NOT NULL DEFAULT 0,
+  `read_at` timestamp NULL DEFAULT NULL,
+  `sent_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `patients`
+--
+
+CREATE TABLE `patients` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `parent_id` int(10) UNSIGNED NOT NULL,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `date_of_birth` date NOT NULL,
+  `gender` enum('MALE','FEMALE','OTHER') NOT NULL,
+  `blood_type` enum('A+','A-','B+','B-','AB+','AB-','O+','O-') DEFAULT NULL,
+  `height` decimal(5,2) DEFAULT NULL COMMENT 'in cm',
+  `weight` decimal(5,2) DEFAULT NULL COMMENT 'in kg',
+  `allergies` text DEFAULT NULL,
+  `medical_conditions` text DEFAULT NULL,
+  `special_notes` text DEFAULT NULL,
+  `profile_picture` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `patients`
+--
+
+INSERT INTO `patients` (`id`, `parent_id`, `first_name`, `last_name`, `date_of_birth`, `gender`, `blood_type`, `height`, `weight`, `allergies`, `medical_conditions`, `special_notes`, `profile_picture`, `created_at`, `updated_at`) VALUES
+(1, 9, 'Dallas Nowel', 'Geremillo', '2025-11-12', 'FEMALE', 'B-', 0.30, 0.40, '', '', NULL, NULL, '2026-03-13 00:17:02', '2026-03-13 00:17:02'),
+(2, 11, 'TEST', 'Geremillo', '2026-04-17', 'MALE', '', 123.00, 123.00, '', '', NULL, NULL, '2026-04-17 11:45:05', '2026-04-17 11:45:05'),
+(3, 17, 'Sky', 'Jabelo', '2026-04-20', 'MALE', '', NULL, NULL, '', '', NULL, NULL, '2026-04-20 14:04:30', '2026-04-20 14:04:30'),
+(4, 18, 'gg', 'test', '2026-04-20', 'OTHER', '', NULL, NULL, '', '', NULL, NULL, '2026-04-20 15:31:53', '2026-04-20 15:31:53'),
+(5, 19, 'tested', 'bonifacio', '2025-10-21', 'FEMALE', '', NULL, NULL, '', '', NULL, NULL, '2026-04-21 02:30:45', '2026-04-21 02:30:45'),
+(6, 23, 'yuri', 'manalo', '2022-01-01', 'FEMALE', 'A+', 111.00, 8.20, 'nuts', 'none', NULL, NULL, '2026-04-23 15:58:07', '2026-04-23 15:58:07'),
+(7, 25, 'justin', 'arciaga', '2011-02-01', 'MALE', 'O+', 140.00, 47.00, 'peanut', 'wla', NULL, NULL, '2026-05-08 04:27:33', '2026-05-08 04:27:33'),
+(8, 26, 'Dael', 'Sandiego', '2004-09-16', 'FEMALE', 'B+', 170.00, 120.00, 'none', 'obese', NULL, NULL, '2026-05-08 05:19:25', '2026-05-08 05:19:25'),
+(9, 28, 'gek', 'lim', '2023-06-14', 'MALE', 'B+', 45.00, 18.00, '', '', NULL, NULL, '2026-05-08 13:30:46', '2026-05-08 13:30:46'),
+(10, 29, 'Azan Mohammad', 'Solano', '2026-02-22', 'MALE', '', NULL, NULL, '', '', NULL, NULL, '2026-05-09 04:36:45', '2026-05-09 04:36:45'),
+(11, 30, 'Juan', 'CCS', '2026-05-09', 'MALE', '', NULL, NULL, '', '', NULL, NULL, '2026-05-09 04:41:41', '2026-05-09 04:41:41');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `patient_files`
+--
+
+CREATE TABLE `patient_files` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `patient_id` int(10) UNSIGNED NOT NULL,
+  `uploaded_by` int(10) UNSIGNED NOT NULL,
+  `original_filename` varchar(255) NOT NULL,
+  `stored_filename` varchar(255) NOT NULL,
+  `mime_type` varchar(100) NOT NULL,
+  `file_size` int(10) UNSIGNED NOT NULL COMMENT 'in bytes',
+  `file_category` enum('LAB_RESULT','MRI','XRAY','PRESCRIPTION','REFERRAL','IMMUNIZATION','OTHER') NOT NULL DEFAULT 'OTHER',
+  `description` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `patient_files`
+--
+
+INSERT INTO `patient_files` (`id`, `patient_id`, `uploaded_by`, `original_filename`, `stored_filename`, `mime_type`, `file_size`, `file_category`, `description`, `created_at`) VALUES
+(1, 3, 17, '657403424_715279931609587_5786239014567208418_n.jpg', '5cd715fc7253cbc6a2f7f6d598cd40b8.jpg', 'image/jpeg', 430035, 'OTHER', '', '2026-04-20 14:04:46'),
+(2, 1, 9, '672636088_1276382434004237_6571652446853976827_n.jpg', 'c93b01297608f72dc068062e39513052.jpg', 'image/jpeg', 133310, 'OTHER', '', '2026-04-30 05:32:22'),
+(3, 1, 9, '672636088_1276382434004237_6571652446853976827_n.jpg', '635cffff95f16a6e26506613cfb1870f.jpg', 'image/jpeg', 133310, 'OTHER', '', '2026-04-30 10:44:36'),
+(4, 7, 25, '672636088_1276382434004237_6571652446853976827_n (1).jpg', '51b3d567d3d1d1a1378ea9391e3d1724.jpg', 'image/jpeg', 133310, 'OTHER', '', '2026-05-08 04:28:07'),
+(5, 8, 26, '672636088_1276382434004237_6571652446853976827_n (1).jpg', '59ff02ff354982fb9f8a613426055b72.jpg', 'image/jpeg', 133310, 'OTHER', 'pls check daugther asap', '2026-05-08 05:20:10');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `patient_vaccine_needs`
+--
+
+CREATE TABLE `patient_vaccine_needs` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `patient_id` int(10) UNSIGNED NOT NULL,
+  `vaccine_id` int(10) UNSIGNED DEFAULT NULL,
+  `vaccine_name` varchar(100) NOT NULL,
+  `dose_number` int(10) UNSIGNED NOT NULL DEFAULT 1,
+  `recommended_date` date DEFAULT NULL,
+  `status` enum('PENDING','SCHEDULED','COMPLETED','MISSED','SKIPPED') NOT NULL DEFAULT 'PENDING',
+  `notes` text DEFAULT NULL,
+  `created_by` int(10) UNSIGNED DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `patient_vaccine_needs`
+--
+
+INSERT INTO `patient_vaccine_needs` (`id`, `patient_id`, `vaccine_id`, `vaccine_name`, `dose_number`, `recommended_date`, `status`, `notes`, `created_by`, `created_at`, `updated_at`) VALUES
+(1, 1, NULL, 'Hib', 1, NULL, '', '0', 2, '2026-04-17 01:18:29', '2026-04-17 05:02:25'),
+(2, 3, NULL, 'Hib', 1, '2026-04-21', '', '0', 2, '2026-04-22 00:09:34', '2026-04-22 00:09:34'),
+(3, 1, NULL, 'BCG', 1, '2026-04-22', '', '0', 2, '2026-04-22 04:32:52', '2026-04-22 04:32:52'),
+(4, 8, NULL, 'Influenza', 1, '2026-05-09', '', '0', 2, '2026-05-08 05:29:28', '2026-05-08 05:36:59'),
+(5, 8, NULL, 'DTaP', 1, '2026-05-08', '', '0', 2, '2026-05-08 05:32:06', '2026-05-08 05:36:46'),
+(6, 8, NULL, 'Hepatitis B', 1, '2026-05-09', '', '0', 2, '2026-05-08 05:40:48', '2026-05-08 05:40:48');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `prescriptions`
+--
+
+CREATE TABLE `prescriptions` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `prescription_number` varchar(30) NOT NULL,
+  `patient_id` int(10) UNSIGNED NOT NULL,
+  `doctor_id` int(10) UNSIGNED NOT NULL,
+  `appointment_id` int(10) UNSIGNED DEFAULT NULL,
+  `prescription_date` date NOT NULL,
+  `diagnosis` text DEFAULT NULL,
+  `medications` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT 'Array of {name, dosage, frequency, duration, instructions}' CHECK (json_valid(`medications`)),
+  `notes` text DEFAULT NULL,
+  `status` enum('ACTIVE','COMPLETED','CANCELLED') NOT NULL DEFAULT 'ACTIVE',
+  `refills_allowed` int(10) UNSIGNED DEFAULT 0,
+  `refill_instructions` text DEFAULT NULL,
+  `pharmacy_notes` text DEFAULT NULL,
+  `clinic_address` text DEFAULT NULL,
+  `doctor_signature` varchar(255) DEFAULT NULL,
+  `is_printed` tinyint(1) NOT NULL DEFAULT 0,
+  `printed_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `prescriptions`
+--
+
+INSERT INTO `prescriptions` (`id`, `prescription_number`, `patient_id`, `doctor_id`, `appointment_id`, `prescription_date`, `diagnosis`, `medications`, `notes`, `status`, `refills_allowed`, `refill_instructions`, `pharmacy_notes`, `clinic_address`, `doctor_signature`, `is_printed`, `printed_at`, `created_at`, `updated_at`) VALUES
+(1, 'RX-2026-58434790', 1, 2, NULL, '2026-04-30', '', '[{\"name\":\"asd\",\"dosage\":\"das\",\"frequency\":\"asdds\",\"duration\":\"asd\",\"instructions\":\"asd\"}]', 'asd', 'ACTIVE', 0, NULL, NULL, NULL, NULL, 0, NULL, '2026-04-30 09:35:46', '2026-04-30 09:35:46'),
+(2, 'RX-2026-32797752', 1, 2, NULL, '2026-04-30', '', '[{\"name\":\"das\",\"dosage\":\"12 ml\",\"frequency\":\"3 every after meal\",\"duration\":\"8 days\",\"instructions\":\"dasasd\"}]', 'dasasd', 'ACTIVE', 0, NULL, NULL, NULL, NULL, 0, NULL, '2026-04-30 10:46:22', '2026-04-30 10:46:22'),
+(3, 'RX-2026-80236019', 1, 2, NULL, '2026-04-30', '', '[{\"name\":\"amoxiciliin\",\"dosage\":\"12 ml\",\"frequency\":\"2 daily\",\"duration\":\"1 week\",\"instructions\":\"N\\/A\"}]', 'N/A', 'ACTIVE', 0, NULL, NULL, NULL, NULL, 0, NULL, '2026-04-30 11:28:15', '2026-04-30 11:28:15'),
+(4, 'RX-2026-48502771', 8, 2, NULL, '2026-05-08', '', '[{\"name\":\"biogesic\",\"dosage\":\"100\",\"frequency\":\"daily\",\"duration\":\"30 days\",\"instructions\":\"drink daily\"}]', 'drink daily', 'ACTIVE', 0, NULL, NULL, NULL, NULL, 0, NULL, '2026-05-08 05:28:14', '2026-05-08 05:28:14'),
+(5, 'RX-2026-47746507', 8, 2, NULL, '2026-05-08', '', '[{\"name\":\"adsa\",\"dosage\":\"12 ml\",\"frequency\":\"3 every after meal\",\"duration\":\"8 days\",\"instructions\":\"dafsdfdsfsdf\"}]', 'dafsdfdsfsdf', 'ACTIVE', 0, NULL, NULL, NULL, NULL, 0, NULL, '2026-05-08 07:51:30', '2026-05-08 07:51:30'),
+(6, 'RX-2026-54112504', 10, 2, NULL, '2026-05-09', '', '[{\"name\":\"Biogesic\",\"dosage\":\"5mg\",\"frequency\":\"2 day\",\"duration\":\"7\",\"instructions\":\"N\\/A\"}]', 'N/A', 'ACTIVE', 0, NULL, NULL, NULL, NULL, 0, NULL, '2026-05-09 05:05:24', '2026-05-09 05:05:24');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `prescription_sequences`
+--
+
+CREATE TABLE `prescription_sequences` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `year` year(4) NOT NULL,
+  `last_number` int(10) UNSIGNED NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `prescription_sequences`
+--
+
+INSERT INTO `prescription_sequences` (`id`, `year`, `last_number`) VALUES
+(1, '2026', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `print_templates`
+--
+
+CREATE TABLE `print_templates` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `template_name` varchar(100) NOT NULL,
+  `template_type` enum('PRESCRIPTION','MEDICAL_CERTIFICATE','LAB_REPORT','OTHER') NOT NULL,
+  `template_content` text NOT NULL,
+  `header_html` text DEFAULT NULL,
+  `footer_html` text DEFAULT NULL,
+  `is_default` tinyint(1) NOT NULL DEFAULT 0,
+  `active` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `services`
+--
+
+CREATE TABLE `services` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `description` text DEFAULT NULL,
+  `duration` int(10) UNSIGNED NOT NULL DEFAULT 30,
+  `cost` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `active` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `services`
+--
+
+INSERT INTO `services` (`id`, `name`, `description`, `duration`, `cost`, `active`, `created_at`, `updated_at`) VALUES
+(1, 'General Consultation', 'Standard pediatric consultation', 30, 500.00, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(2, 'Vaccination', 'Routine immunization administration', 15, 300.00, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(3, 'Well-Baby Checkup', 'Comprehensive developmental assessment', 45, 800.00, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(4, 'Follow-up Visit', 'Follow-up on previous consultation', 20, 400.00, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(5, 'Emergency Consultation', 'Urgent pediatric care', 60, 1500.00, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(6, 'Growth Assessment', 'Height, weight, and developmental monitoring', 30, 600.00, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(7, 'General Consultation', 'Standard pediatric consultation', 30, 500.00, 1, '2026-03-13 00:10:28', '2026-03-13 00:10:28'),
+(8, 'Vaccination', 'Routine immunization administration', 15, 300.00, 1, '2026-03-13 00:10:28', '2026-03-13 00:10:28'),
+(9, 'Well-Baby Checkup', 'Comprehensive developmental assessment', 45, 800.00, 1, '2026-03-13 00:10:28', '2026-03-13 00:10:28'),
+(10, 'Follow-up Visit', 'Follow-up on previous consultation', 20, 400.00, 1, '2026-03-13 00:10:28', '2026-03-13 00:10:28'),
+(11, 'Emergency Consultation', 'Urgent pediatric care', 60, 1500.00, 1, '2026-03-13 00:10:28', '2026-03-13 00:10:28'),
+(12, 'Growth Assessment', 'Height, weight, and developmental monitoring', 30, 600.00, 1, '2026-03-13 00:10:28', '2026-03-13 00:10:28'),
+(13, 'mlmo', '', 30, 20.00, 1, '2026-04-17 01:06:08', '2026-05-08 13:06:46');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `user_type` enum('PARENT','DOCTOR','DOCTOR_OWNER','ADMIN','SUPERADMIN') NOT NULL DEFAULT 'PARENT',
+  `status` enum('active','inactive','suspended','pending') NOT NULL DEFAULT 'active',
+  `date_of_birth` date DEFAULT NULL,
+  `gender` enum('MALE','FEMALE','OTHER') DEFAULT NULL,
+  `address` text DEFAULT NULL,
+  `emergency_contact_name` varchar(100) DEFAULT NULL,
+  `emergency_contact_phone` varchar(20) DEFAULT NULL,
+  `profile_picture` varchar(255) DEFAULT NULL,
+  `specialization` varchar(100) DEFAULT NULL,
+  `license_number` varchar(50) DEFAULT NULL,
+  `years_of_experience` int(10) UNSIGNED DEFAULT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `email_verification_token` varchar(64) DEFAULT NULL,
+  `email_otp_code` varchar(10) DEFAULT NULL,
+  `email_otp_expires` timestamp NULL DEFAULT NULL,
+  `email_otp_attempts` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
+  `password_reset_token` varchar(64) DEFAULT NULL,
+  `password_reset_expires` timestamp NULL DEFAULT NULL,
+  `two_factor_secret` varchar(255) DEFAULT NULL,
+  `two_factor_enabled` tinyint(1) NOT NULL DEFAULT 0,
+  `login_attempts` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `locked_until` timestamp NULL DEFAULT NULL,
+  `force_password_change` tinyint(1) NOT NULL DEFAULT 0,
+  `last_login_at` timestamp NULL DEFAULT NULL,
+  `last_login_ip` varchar(45) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `password`, `user_type`, `status`, `date_of_birth`, `gender`, `address`, `emergency_contact_name`, `emergency_contact_phone`, `profile_picture`, `specialization`, `license_number`, `years_of_experience`, `email_verified_at`, `email_verification_token`, `email_otp_code`, `email_otp_expires`, `email_otp_attempts`, `password_reset_token`, `password_reset_expires`, `two_factor_secret`, `two_factor_enabled`, `login_attempts`, `locked_until`, `force_password_change`, `last_login_at`, `last_login_ip`, `created_at`, `updated_at`) VALUES
+(1, 'System', 'Administrator', 'admin@pedicare.com', '9171234567', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ADMIN', 'active', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-03-13 00:10:14', NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, 0, NULL, 0, NULL, NULL, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(2, 'Maria', 'Santos', 'dr.santos@pedicare.com', '9171111111', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'DOCTOR', 'active', NULL, NULL, NULL, NULL, NULL, NULL, 'General Pediatrics', 'PRC-2024-001', 1, '2026-03-13 00:10:14', NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, 0, NULL, 0, NULL, NULL, '2026-03-13 00:10:14', '2026-04-22 04:41:45'),
+(3, 'Juan', 'Dela Cruz', 'dr.delacruz@pedicare.com', '9172222222', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'DOCTOR', 'active', NULL, NULL, NULL, NULL, NULL, NULL, 'Pediatric Cardiology', 'PRC-2024-002', 10, '2026-03-13 00:10:14', NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, 0, NULL, 0, NULL, NULL, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(4, 'Ana', 'Reyes', 'dr.reyes@pedicare.com', '9173333333', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'DOCTOR', 'active', NULL, NULL, NULL, NULL, NULL, NULL, 'Pediatric Neurology', 'PRC-2024-003', 8, '2026-03-13 00:10:14', NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, 0, NULL, 0, NULL, NULL, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(9, 'CHRISTIAN', 'GEREMILLO', 'geremillo@gmail.com', '09317093056', '$2y$10$4qDR.viCZifpClsk0fRMyerT079SiKlBGgtlqRAfcAfLstsOm2qN.', 'PARENT', 'active', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, 0, NULL, 0, NULL, NULL, '2026-03-13 00:16:17', '2026-05-07 06:58:47'),
+(10, 'JUSTIN', 'ARCIAGA', 'JUSTIN@pedicare.com', '09317093056', '$2y$10$Nj6NDMiBPBDQHNmBi07o/un8zTHLgp4gfhRzdMMXcxruTdKST3/.S', 'DOCTOR', 'active', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, 0, NULL, 0, NULL, NULL, '2026-04-17 11:38:07', '2026-05-08 13:07:14'),
+(11, 'gerick', 'lim', 'gerick@pedicare.com', '09317093056', '$2y$10$wQslu50nEx8GqpwErLqQu.gZIWzu3Y8SCawPLt86rb9RpH3h4Fpyi', 'PARENT', 'active', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, 0, NULL, 0, NULL, NULL, '2026-04-17 11:43:38', '2026-04-17 11:43:38'),
+(13, 'GERICK', 'LIM', 'gdlim0773pam@student.fatima.edu.ph', '9091595925', '$2y$10$QKSlkpuVg3Avu1jqJpys6.upI.QWjJCkce4bWBZL0gYxJJlVTxUpW', 'PARENT', 'active', '2026-04-19', 'MALE', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, 0, NULL, 0, NULL, NULL, '2026-04-19 13:34:19', '2026-04-19 13:34:19'),
+(14, 'GERICK nOWEL', 'Arciaga', 'nowelgeremillo94@gmail.com', '9091595925', '$2y$10$5R8I91ws/4uRQtpDhNrAROruZ4XCG1i2RHv18VYgrZnkuPDsoKfwK', 'PARENT', 'active', '2026-04-19', 'MALE', 'Lot 4176-A, MacArthur Hwy', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, 0, NULL, 0, NULL, NULL, '2026-04-19 13:35:43', '2026-04-19 13:35:43'),
+(15, 'Nowel', 'Geremillo', 'christiannowelgeremillo@gmail.com', '9317093056', '$2y$10$VNexlKvfIZnxDRCUVzW1ceH9Ums2Gpq.U2kpuL7jSKo6GjJq9jA0i', 'PARENT', 'active', '2026-04-19', 'MALE', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-19 14:28:00', NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, 0, NULL, 0, NULL, NULL, '2026-04-19 14:27:39', '2026-04-19 14:28:00'),
+(16, '<script>alert(1)</script>', '<script>alert(1)</script>', 'test@gmail.com', '9626072477', '$2y$10$uuyXQFtCsK.1Uq3uQI8pRu9c8y2idSHbI/ZBhy5YEBtrV/QzGPcTC', 'PARENT', 'active', '2005-07-30', 'MALE', '', 'Justine Garcia', '9626072477', NULL, NULL, NULL, NULL, '2026-04-20 01:59:44', NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, 0, NULL, 0, NULL, NULL, '2026-04-20 01:53:20', '2026-04-20 03:06:46'),
+(17, 'CHRISTIAN NOWEL JABELO', 'GEREMILLO', 'cjgeremillo4638pam@student.fatima.edu.ph', '9922647814', '$2y$10$/MVYziTGNBdfqIUOSZV6ueqfyXE08oTlFCtXBXkxFA9ofWPeW/47q', 'PARENT', 'active', '2003-10-25', 'MALE', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-20 14:03:47', NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, 0, NULL, 0, NULL, NULL, '2026-04-20 14:03:05', '2026-04-20 14:03:47'),
+(18, 'Geremillo', 'Dallas', 'dallasgeremillo875@gmail.com', '9098827520', '$2y$10$Ew.izdM883h.IqxXu2WdhuhHiGPfQF5WLjvVHg0FqOyAQ.NTELfPa', 'PARENT', 'active', '2026-04-20', 'OTHER', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-20 15:31:32', NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, 0, NULL, 0, NULL, NULL, '2026-04-20 15:31:09', '2026-04-20 15:31:32'),
+(19, 'testing', 'tested', 'ghost08141@gmail.com', '9164918557', '$2y$10$7Ni9qaA7e.efp8ISBbS97uFbQDjyyyMjFMPzE78gUs.A23KG7i0fC', 'PARENT', 'active', '1986-03-21', 'MALE', 'ac', 'mary test', '9264918557', NULL, NULL, NULL, NULL, '2026-04-21 02:27:00', NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, 0, NULL, 0, NULL, NULL, '2026-04-21 02:26:35', '2026-04-21 02:27:00'),
+(20, 'Justin', 'Arciaga', 'jmarciaga5199pam@student.fatima.edu.ph', '9696417339', '$2y$10$BEDynctWQpRVUYvEnHCA6edbf3EghQxP7GhrMp9zW7fRFqodtld8G', 'PARENT', 'pending', '2026-04-21', 'MALE', 'Apalit Pampanga', 'Nowel geremillo', '9696417339', NULL, NULL, NULL, NULL, NULL, NULL, '206856', '2026-04-21 03:49:54', 0, NULL, NULL, NULL, 0, 0, NULL, 0, NULL, NULL, '2026-04-21 03:39:54', '2026-04-21 03:39:54'),
+(21, 'Justin', 'Arciaga', 'atashnowel@gmail.com', '9125568564', '$2y$10$1CWBazRjIh9e9cqq9zuYPOyMver7WsSZZiv/SCnc6r3ZkwmOvgn0q', 'PARENT', 'active', '2009-12-21', 'MALE', 'Apalit', NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-21 03:44:03', NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, 0, NULL, 0, NULL, NULL, '2026-04-21 03:43:50', '2026-04-21 03:44:03'),
+(22, 'Veronica', 'Manalo', 'veronicamanalo@gmail.com', '9029176672', '$2y$10$J7QufBlk8X0HgVRHg.uUMOLdkqs9P9rm96BCycwLaiU9yor8oV6Jm', 'PARENT', 'pending', '2004-01-08', 'OTHER', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '135120', '2026-04-23 16:04:36', 0, NULL, NULL, NULL, 0, 0, NULL, 0, NULL, NULL, '2026-04-23 15:54:36', '2026-04-23 15:54:36'),
+(23, 'Veronica', 'Manalo', 'veronicamanalo222@gmail.com', '9029176672', '$2y$10$TiEXXxJdERpem6m9i9978uh.jJhyiMO8sMLKNip96uDJEBLs4mURO', 'PARENT', 'active', '2004-01-08', 'OTHER', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-23 15:56:58', NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, 0, NULL, 0, NULL, NULL, '2026-04-23 15:56:39', '2026-04-23 15:56:58'),
+(24, 'KRISTEL', 'GEREMILLO', 'kjgeremillo0093pam@student.fatima.edu.ph', '9031702564', '$2y$10$XEgx0a3yGAMv0OgjwxxJqOeSSEvLsL3aD8K3m/WDEUpJwju4Wj9yu', 'PARENT', 'active', '2006-09-01', 'FEMALE', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-05-02 19:39:53', NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, 0, NULL, 0, NULL, NULL, '2026-05-02 19:39:35', '2026-05-02 19:39:53'),
+(25, 'whhaah', 'Tolosa', 'ytmaleoric@gmail.com', '9661907753', '$2y$10$NEOs/Asq3Et0la.GXG9n1utoeDTp8X0oT64kalK/pKmHHzHzdITHW', 'PARENT', 'active', '2004-07-02', 'MALE', 'panipuan purok 2', 'justin arciaga', '9961907754', NULL, NULL, NULL, NULL, '2026-05-08 04:09:14', NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, 0, NULL, 0, NULL, NULL, '2026-05-08 04:08:38', '2026-05-08 06:11:05'),
+(26, 'Justin david', 'Arciaga', 'arciagaj789@gmail.com', '9924660451', '$2y$10$j3aZnp2ySWi3lGCKqeA/7.uKnXb5Y/L30h2iaT/Lq4H6MKwC.Rrke', 'PARENT', 'active', '2005-01-21', 'MALE', 'camella fiorenza apalit pampanga', 'Daisy', '9696417339', NULL, NULL, NULL, NULL, '2026-05-08 05:16:08', NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, 0, NULL, 0, NULL, NULL, '2026-05-08 05:15:52', '2026-05-08 05:56:53'),
+(27, 'sensen', 'tolosaaa', 'sen@gmail.com', '9673563636', '$2y$10$dvjwyQGSrWI93.wWnBKmJurVf67b.sWK70E10w7S.7t3yPqzBwtZa', 'PARENT', 'active', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, 0, NULL, 0, NULL, NULL, '2026-05-08 06:12:37', '2026-05-08 06:12:37'),
+(28, 'Gerick', 'Lim', 'gerickdavidlim@gmail.com', '9159592545', '$2y$10$4.9Wfa.jXYIDLgkeyZXN7O1codsCy97jKeVjd8Y5oKID/lSYwsmYe', 'PARENT', 'active', '1990-08-30', 'MALE', NULL, 'susana lim', '9776257979', NULL, NULL, NULL, NULL, '2026-05-08 13:29:34', NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, 0, NULL, 0, NULL, NULL, '2026-05-08 13:29:13', '2026-05-08 13:29:34'),
+(29, 'Stephen Paul', 'Solano', 'paulsolano_08@yahoo.com', '9164918557', '$2y$10$iFfuwNdAsTtF1Rph23/3WOhSxEHQIam7kGH/hOwCW2cu3/uB9G8u6', 'PARENT', 'active', '1995-12-09', 'MALE', 'San nicolas, AC', 'Annie-Jean Solano', '9454628517', NULL, NULL, NULL, NULL, '2026-05-09 04:32:58', NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, 0, NULL, 0, NULL, NULL, '2026-05-09 04:32:33', '2026-05-09 04:32:58'),
+(30, 'Justin', 'Germillo', 'iamjansen02@gmail.com', '9091595925', '$2y$10$yOJkrlZ9JxJBYCbs6sh0Juq4yZVndHj2T7zFKoOweTL6X773Bdixy', 'PARENT', 'active', '2025-07-02', 'MALE', 'Lot 4176-A, MacArthur Hwy', NULL, NULL, NULL, NULL, NULL, NULL, '2026-05-09 04:36:34', NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, 0, NULL, 0, NULL, NULL, '2026-05-09 04:35:54', '2026-05-09 04:36:34'),
+(31, 'Rodney', 'Pogi', 'Rodney@gmail.com', '55555555555555', '$2y$10$9.mkex5ulQlCPP.SDr1jnODKVayFV9Akigq9aCaQOyFJbpHrbc3vy', 'DOCTOR', 'active', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, 0, NULL, 0, NULL, NULL, '2026-05-09 05:08:44', '2026-05-09 05:08:44'),
+(32, 'Super', 'Admin', 'superadmin@pedicare.com', '9170000000', '$2y$10$TKh8H1.PfbuNIUN5ZA.cLuFCTtAVK2DQdGwK.+JGaGVnLOYMp3XGq', 'SUPERADMIN', 'active', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-05-14 01:58:42', NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, 0, NULL, 0, NULL, NULL, '2026-05-14 01:58:42', '2026-05-14 02:19:05');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vaccination_records`
+--
+
+CREATE TABLE `vaccination_records` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `patient_id` int(10) UNSIGNED NOT NULL,
+  `vaccine_id` int(10) UNSIGNED DEFAULT NULL,
+  `vaccine_name` varchar(100) NOT NULL,
+  `vaccine_type` enum('ROUTINE','OPTIONAL','SPECIAL') NOT NULL DEFAULT 'ROUTINE',
+  `dose_number` int(10) UNSIGNED NOT NULL DEFAULT 1,
+  `total_doses` int(10) UNSIGNED NOT NULL DEFAULT 1,
+  `administration_date` date NOT NULL,
+  `next_due_date` date DEFAULT NULL,
+  `administered_by` int(10) UNSIGNED NOT NULL,
+  `lot_number` varchar(50) DEFAULT NULL,
+  `manufacturer` varchar(100) DEFAULT NULL,
+  `site` enum('LEFT_ARM','RIGHT_ARM','LEFT_THIGH','RIGHT_THIGH','ORAL') NOT NULL DEFAULT 'LEFT_ARM',
+  `notes` text DEFAULT NULL,
+  `status` enum('COMPLETED','SCHEDULED','MISSED','OVERDUE') NOT NULL DEFAULT 'COMPLETED',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `vaccination_records`
+--
+
+INSERT INTO `vaccination_records` (`id`, `patient_id`, `vaccine_id`, `vaccine_name`, `vaccine_type`, `dose_number`, `total_doses`, `administration_date`, `next_due_date`, `administered_by`, `lot_number`, `manufacturer`, `site`, `notes`, `status`, `created_at`) VALUES
+(2, 8, NULL, 'BCG', 'ROUTINE', 1, 1, '2026-05-08', NULL, 2, '', '', '', '', 'COMPLETED', '2026-05-08 05:42:59'),
+(3, 8, NULL, 'Hepatitis B', 'ROUTINE', 1, 1, '2026-05-08', '2026-05-08', 2, '12312', '312321', '', 'yes', 'COMPLETED', '2026-05-08 05:46:13'),
+(4, 10, NULL, 'BCG', 'ROUTINE', 1, 1, '2026-05-09', '2026-05-09', 2, '123s3DFS43', 'Pfizer', '', 'Mild Rash Reaction', 'COMPLETED', '2026-05-09 05:03:00'),
+(5, 8, NULL, 'BCG', 'ROUTINE', 3, 1, '2026-05-14', NULL, 2, '', '', '', '', 'COMPLETED', '2026-05-14 02:13:13');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vaccines`
+--
+
+CREATE TABLE `vaccines` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `disease_protected` varchar(255) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `manufacturer` varchar(100) DEFAULT NULL,
+  `vaccine_type` enum('ROUTINE','OPTIONAL','SPECIAL') NOT NULL DEFAULT 'ROUTINE',
+  `total_doses` int(10) UNSIGNED NOT NULL DEFAULT 1,
+  `dose_interval_days` int(10) UNSIGNED DEFAULT NULL COMMENT 'Days between doses',
+  `min_age_months` int(10) UNSIGNED DEFAULT NULL,
+  `max_age_months` int(10) UNSIGNED DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `vaccines`
+--
+
+INSERT INTO `vaccines` (`id`, `name`, `disease_protected`, `description`, `manufacturer`, `vaccine_type`, `total_doses`, `dose_interval_days`, `min_age_months`, `max_age_months`, `active`, `created_at`, `updated_at`) VALUES
+(1, 'BCG', NULL, 'Bacillus Calmette-Guerin - Tuberculosis vaccine', 'Various', 'ROUTINE', 1, NULL, 0, 12, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(2, 'Hepatitis B', NULL, 'Hepatitis B vaccine', 'Various', 'ROUTINE', 3, 30, 0, 6, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(3, 'DTaP', NULL, 'Diphtheria, Tetanus, Pertussis', 'Various', 'ROUTINE', 5, 60, 2, 72, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(4, 'IPV', NULL, 'Inactivated Polio Vaccine', 'Various', 'ROUTINE', 4, 60, 2, 72, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(5, 'Hib', NULL, 'Haemophilus influenzae type b', 'Various', 'ROUTINE', 4, 60, 2, 15, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(6, 'PCV13', NULL, 'Pneumococcal Conjugate Vaccine', 'Pfizer', 'ROUTINE', 4, 60, 2, 15, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(7, 'Rotavirus', NULL, 'Rotavirus vaccine', 'Various', 'ROUTINE', 3, 30, 2, 8, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(8, 'MMR', NULL, 'Measles, Mumps, Rubella', 'Various', 'ROUTINE', 2, 90, 12, 72, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(9, 'Varicella', NULL, 'Chickenpox vaccine', 'Various', 'ROUTINE', 2, 90, 12, 72, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(10, 'Hepatitis A', NULL, 'Hepatitis A vaccine', 'Various', 'ROUTINE', 2, 180, 12, 24, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(11, 'Influenza', NULL, 'Seasonal Flu vaccine', 'Various', 'OPTIONAL', 1, NULL, 6, 216, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(12, 'HPV', NULL, 'Human Papillomavirus vaccine', 'Various', 'OPTIONAL', 3, 60, 108, 156, 1, '2026-03-13 00:10:14', '2026-03-13 00:10:14'),
+(13, 'BCG', NULL, 'Bacillus Calmette-Guerin - Tuberculosis vaccine', 'Various', 'ROUTINE', 1, NULL, 0, 12, 1, '2026-03-13 00:10:28', '2026-03-13 00:10:28'),
+(14, 'Hepatitis B', NULL, 'Hepatitis B vaccine', 'Various', 'ROUTINE', 3, 30, 0, 6, 1, '2026-03-13 00:10:28', '2026-03-13 00:10:28'),
+(15, 'DTaP', NULL, 'Diphtheria, Tetanus, Pertussis', 'Various', 'ROUTINE', 5, 60, 2, 72, 1, '2026-03-13 00:10:28', '2026-03-13 00:10:28'),
+(16, 'IPV', NULL, 'Inactivated Polio Vaccine', 'Various', 'ROUTINE', 4, 60, 2, 72, 1, '2026-03-13 00:10:28', '2026-03-13 00:10:28'),
+(17, 'Hib', NULL, 'Haemophilus influenzae type b', 'Various', 'ROUTINE', 4, 60, 2, 15, 1, '2026-03-13 00:10:28', '2026-03-13 00:10:28'),
+(18, 'PCV13', NULL, 'Pneumococcal Conjugate Vaccine', 'Pfizer', 'ROUTINE', 4, 60, 2, 15, 1, '2026-03-13 00:10:28', '2026-03-13 00:10:28'),
+(19, 'Rotavirus', NULL, 'Rotavirus vaccine', 'Various', 'ROUTINE', 3, 30, 2, 8, 1, '2026-03-13 00:10:28', '2026-03-13 00:10:28'),
+(20, 'MMR', NULL, 'Measles, Mumps, Rubella', 'Various', 'ROUTINE', 2, 90, 12, 72, 1, '2026-03-13 00:10:28', '2026-03-13 00:10:28'),
+(21, 'Varicella', NULL, 'Chickenpox vaccine', 'Various', 'ROUTINE', 2, 90, 12, 72, 1, '2026-03-13 00:10:28', '2026-03-13 00:10:28'),
+(22, 'Hepatitis A', NULL, 'Hepatitis A vaccine', 'Various', 'ROUTINE', 2, 180, 12, 24, 1, '2026-03-13 00:10:28', '2026-03-13 00:10:28'),
+(23, 'Influenza', NULL, 'Seasonal Flu vaccine', 'Various', 'OPTIONAL', 1, NULL, 6, 216, 1, '2026-03-13 00:10:28', '2026-03-13 00:10:28'),
+(24, 'HPV', NULL, 'Human Papillomavirus vaccine', 'Various', 'OPTIONAL', 3, 60, 108, 156, 1, '2026-03-13 00:10:28', '2026-03-13 00:10:28');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vaccine_schedule`
+--
+
+CREATE TABLE `vaccine_schedule` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `vaccine_id` int(10) UNSIGNED NOT NULL,
+  `dose_number` int(10) UNSIGNED NOT NULL DEFAULT 1,
+  `recommended_age_months` int(10) UNSIGNED NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `is_mandatory` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `vaccine_schedule`
+--
+
+INSERT INTO `vaccine_schedule` (`id`, `vaccine_id`, `dose_number`, `recommended_age_months`, `description`, `is_mandatory`, `created_at`) VALUES
+(1, 1, 1, 0, 'BCG at birth', 1, '2026-03-13 00:10:14'),
+(2, 2, 1, 0, 'Hepatitis B - 1st dose at birth', 1, '2026-03-13 00:10:14'),
+(3, 2, 2, 1, 'Hepatitis B - 2nd dose at 1 month', 1, '2026-03-13 00:10:14'),
+(4, 2, 3, 6, 'Hepatitis B - 3rd dose at 6 months', 1, '2026-03-13 00:10:14'),
+(5, 3, 1, 2, 'DTaP - 1st dose at 2 months', 1, '2026-03-13 00:10:14'),
+(6, 3, 2, 4, 'DTaP - 2nd dose at 4 months', 1, '2026-03-13 00:10:14'),
+(7, 3, 3, 6, 'DTaP - 3rd dose at 6 months', 1, '2026-03-13 00:10:14'),
+(8, 3, 4, 18, 'DTaP - 4th dose at 18 months', 1, '2026-03-13 00:10:14'),
+(9, 3, 5, 48, 'DTaP - 5th dose at 4 years', 1, '2026-03-13 00:10:14'),
+(10, 4, 1, 2, 'IPV - 1st dose at 2 months', 1, '2026-03-13 00:10:14'),
+(11, 4, 2, 4, 'IPV - 2nd dose at 4 months', 1, '2026-03-13 00:10:14'),
+(12, 4, 3, 6, 'IPV - 3rd dose at 6 months', 1, '2026-03-13 00:10:14'),
+(13, 4, 4, 48, 'IPV - 4th dose at 4 years', 1, '2026-03-13 00:10:14'),
+(14, 8, 1, 12, 'MMR - 1st dose at 12 months', 1, '2026-03-13 00:10:14'),
+(15, 8, 2, 48, 'MMR - 2nd dose at 4 years', 1, '2026-03-13 00:10:14'),
+(16, 9, 1, 12, 'Varicella - 1st dose at 12 months', 1, '2026-03-13 00:10:14'),
+(17, 9, 2, 48, 'Varicella - 2nd dose at 4 years', 1, '2026-03-13 00:10:14'),
+(18, 1, 1, 0, 'BCG at birth', 1, '2026-03-13 00:10:28'),
+(19, 2, 1, 0, 'Hepatitis B - 1st dose at birth', 1, '2026-03-13 00:10:28'),
+(20, 2, 2, 1, 'Hepatitis B - 2nd dose at 1 month', 1, '2026-03-13 00:10:28'),
+(21, 2, 3, 6, 'Hepatitis B - 3rd dose at 6 months', 1, '2026-03-13 00:10:28'),
+(22, 3, 1, 2, 'DTaP - 1st dose at 2 months', 1, '2026-03-13 00:10:28'),
+(23, 3, 2, 4, 'DTaP - 2nd dose at 4 months', 1, '2026-03-13 00:10:28'),
+(24, 3, 3, 6, 'DTaP - 3rd dose at 6 months', 1, '2026-03-13 00:10:28'),
+(25, 3, 4, 18, 'DTaP - 4th dose at 18 months', 1, '2026-03-13 00:10:28'),
+(26, 3, 5, 48, 'DTaP - 5th dose at 4 years', 1, '2026-03-13 00:10:28'),
+(27, 4, 1, 2, 'IPV - 1st dose at 2 months', 1, '2026-03-13 00:10:28'),
+(28, 4, 2, 4, 'IPV - 2nd dose at 4 months', 1, '2026-03-13 00:10:28'),
+(29, 4, 3, 6, 'IPV - 3rd dose at 6 months', 1, '2026-03-13 00:10:28'),
+(30, 4, 4, 48, 'IPV - 4th dose at 4 years', 1, '2026-03-13 00:10:28'),
+(31, 8, 1, 12, 'MMR - 1st dose at 12 months', 1, '2026-03-13 00:10:28'),
+(32, 8, 2, 48, 'MMR - 2nd dose at 4 years', 1, '2026-03-13 00:10:28'),
+(33, 9, 1, 12, 'Varicella - 1st dose at 12 months', 1, '2026-03-13 00:10:28'),
+(34, 9, 2, 48, 'Varicella - 2nd dose at 4 years', 1, '2026-03-13 00:10:28');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `activity_logs`
+--
+ALTER TABLE `activity_logs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_activity_user` (`user_id`),
+  ADD KEY `idx_activity_action` (`action`),
+  ADD KEY `idx_activity_timestamp` (`created_at`),
+  ADD KEY `idx_activity_entity` (`entity_type`,`entity_id`);
+
+--
+-- Indexes for table `announcements`
+--
+ALTER TABLE `announcements`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_announcements_active` (`is_active`),
+  ADD KEY `idx_announcements_published` (`published_at`),
+  ADD KEY `idx_announcements_category` (`category`),
+  ADD KEY `fk_announcements_creator` (`created_by`);
+
+--
+-- Indexes for table `appointments`
+--
+ALTER TABLE `appointments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_appointments_doctor_date` (`doctor_id`,`appointment_date`),
+  ADD KEY `idx_appointments_patient` (`patient_id`),
+  ADD KEY `idx_appointments_date` (`appointment_date`),
+  ADD KEY `idx_appointments_status` (`status`),
+  ADD KEY `fk_appointments_creator` (`created_by`);
+
+--
+-- Indexes for table `appointment_waitlist`
+--
+ALTER TABLE `appointment_waitlist`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_waitlist_doctor_date` (`doctor_id`,`preferred_date`),
+  ADD KEY `idx_waitlist_status` (`status`),
+  ADD KEY `fk_waitlist_patient` (`patient_id`),
+  ADD KEY `fk_waitlist_creator` (`created_by`);
+
+--
+-- Indexes for table `clinic_settings`
+--
+ALTER TABLE `clinic_settings`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uk_setting_key` (`setting_key`),
+  ADD KEY `fk_settings_updater` (`updated_by`);
+
+--
+-- Indexes for table `consultation_notes`
+--
+ALTER TABLE `consultation_notes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_consultation_patient` (`patient_id`),
+  ADD KEY `idx_consultation_doctor` (`doctor_id`),
+  ADD KEY `idx_consultation_date` (`consultation_date`),
+  ADD KEY `fk_consultation_appointment` (`appointment_id`);
+
+--
+-- Indexes for table `developmental_milestones`
+--
+ALTER TABLE `developmental_milestones`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_milestones_patient` (`patient_id`),
+  ADD KEY `idx_milestones_type` (`milestone_type`),
+  ADD KEY `fk_milestones_recorded_by` (`recorded_by`);
+
+--
+-- Indexes for table `doctor_availability`
+--
+ALTER TABLE `doctor_availability`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_availability_doctor` (`doctor_id`),
+  ADD KEY `idx_availability_date` (`specific_date`),
+  ADD KEY `idx_availability_day` (`day_of_week`);
+
+--
+-- Indexes for table `doctor_schedules`
+--
+ALTER TABLE `doctor_schedules`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_schedules_doctor` (`doctor_id`),
+  ADD KEY `idx_schedules_day` (`day_of_week`);
+
+--
+-- Indexes for table `growth_records`
+--
+ALTER TABLE `growth_records`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_growth_patient` (`patient_id`),
+  ADD KEY `idx_growth_date` (`record_date`),
+  ADD KEY `fk_growth_recorded_by` (`recorded_by`);
+
+--
+-- Indexes for table `login_history`
+--
+ALTER TABLE `login_history`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_login_user` (`user_id`),
+  ADD KEY `idx_login_created` (`created_at`);
+
+--
+-- Indexes for table `medical_certificates`
+--
+ALTER TABLE `medical_certificates`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uk_certificate_number` (`certificate_number`),
+  ADD KEY `idx_certificates_patient` (`patient_id`),
+  ADD KEY `idx_certificates_doctor` (`doctor_id`),
+  ADD KEY `idx_certificates_appointment` (`appointment_id`);
+
+--
+-- Indexes for table `medical_records`
+--
+ALTER TABLE `medical_records`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_medical_records_patient` (`patient_id`),
+  ADD KEY `idx_medical_records_doctor` (`doctor_id`),
+  ADD KEY `idx_medical_records_date` (`record_date`);
+
+--
+-- Indexes for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_notifications_user` (`user_id`),
+  ADD KEY `idx_notifications_read` (`user_id`,`is_read`),
+  ADD KEY `idx_notifications_type` (`type`),
+  ADD KEY `idx_notifications_created` (`created_at`);
+
+--
+-- Indexes for table `patients`
+--
+ALTER TABLE `patients`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_patients_parent` (`parent_id`),
+  ADD KEY `idx_patients_dob` (`date_of_birth`);
+
+--
+-- Indexes for table `patient_files`
+--
+ALTER TABLE `patient_files`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_files_patient` (`patient_id`),
+  ADD KEY `idx_files_uploader` (`uploaded_by`);
+
+--
+-- Indexes for table `patient_vaccine_needs`
+--
+ALTER TABLE `patient_vaccine_needs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_vaccine_needs_patient` (`patient_id`),
+  ADD KEY `idx_vaccine_needs_status` (`status`),
+  ADD KEY `idx_vaccine_needs_created_by` (`created_by`),
+  ADD KEY `fk_vaccine_needs_vaccine` (`vaccine_id`);
+
+--
+-- Indexes for table `prescriptions`
+--
+ALTER TABLE `prescriptions`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uk_prescription_number` (`prescription_number`),
+  ADD KEY `idx_prescriptions_patient` (`patient_id`),
+  ADD KEY `idx_prescriptions_doctor` (`doctor_id`),
+  ADD KEY `idx_prescriptions_date` (`prescription_date`),
+  ADD KEY `fk_prescriptions_appointment` (`appointment_id`);
+
+--
+-- Indexes for table `prescription_sequences`
+--
+ALTER TABLE `prescription_sequences`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uk_sequence_year` (`year`);
+
+--
+-- Indexes for table `print_templates`
+--
+ALTER TABLE `print_templates`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `services`
+--
+ALTER TABLE `services`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_services_active` (`active`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uk_users_email` (`email`),
+  ADD KEY `idx_users_type` (`user_type`),
+  ADD KEY `idx_users_status` (`status`),
+  ADD KEY `idx_users_email_verified` (`email_verified_at`);
+
+--
+-- Indexes for table `vaccination_records`
+--
+ALTER TABLE `vaccination_records`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_vaccination_patient` (`patient_id`),
+  ADD KEY `idx_vaccination_vaccine` (`vaccine_id`),
+  ADD KEY `idx_vaccination_date` (`administration_date`),
+  ADD KEY `idx_vaccination_status` (`status`),
+  ADD KEY `fk_vaccination_admin` (`administered_by`);
+
+--
+-- Indexes for table `vaccines`
+--
+ALTER TABLE `vaccines`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_vaccines_type` (`vaccine_type`),
+  ADD KEY `idx_vaccines_active` (`active`);
+
+--
+-- Indexes for table `vaccine_schedule`
+--
+ALTER TABLE `vaccine_schedule`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_schedule_vaccine` (`vaccine_id`),
+  ADD KEY `idx_schedule_age` (`recommended_age_months`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `activity_logs`
+--
+ALTER TABLE `activity_logs`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=418;
+
+--
+-- AUTO_INCREMENT for table `announcements`
+--
+ALTER TABLE `announcements`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `appointments`
+--
+ALTER TABLE `appointments`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+
+--
+-- AUTO_INCREMENT for table `appointment_waitlist`
+--
+ALTER TABLE `appointment_waitlist`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `clinic_settings`
+--
+ALTER TABLE `clinic_settings`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+
+--
+-- AUTO_INCREMENT for table `consultation_notes`
+--
+ALTER TABLE `consultation_notes`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `developmental_milestones`
+--
+ALTER TABLE `developmental_milestones`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `doctor_availability`
+--
+ALTER TABLE `doctor_availability`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+
+--
+-- AUTO_INCREMENT for table `doctor_schedules`
+--
+ALTER TABLE `doctor_schedules`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT for table `growth_records`
+--
+ALTER TABLE `growth_records`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `login_history`
+--
+ALTER TABLE `login_history`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `medical_certificates`
+--
+ALTER TABLE `medical_certificates`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `medical_records`
+--
+ALTER TABLE `medical_records`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `notifications`
+--
+ALTER TABLE `notifications`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `patients`
+--
+ALTER TABLE `patients`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `patient_files`
+--
+ALTER TABLE `patient_files`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `patient_vaccine_needs`
+--
+ALTER TABLE `patient_vaccine_needs`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `prescriptions`
+--
+ALTER TABLE `prescriptions`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `prescription_sequences`
+--
+ALTER TABLE `prescription_sequences`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `print_templates`
+--
+ALTER TABLE `print_templates`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `services`
+--
+ALTER TABLE `services`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+
+--
+-- AUTO_INCREMENT for table `vaccination_records`
+--
+ALTER TABLE `vaccination_records`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `vaccines`
+--
+ALTER TABLE `vaccines`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
+--
+-- AUTO_INCREMENT for table `vaccine_schedule`
+--
+ALTER TABLE `vaccine_schedule`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `activity_logs`
+--
+ALTER TABLE `activity_logs`
+  ADD CONSTRAINT `fk_activity_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Constraints for table `announcements`
+--
+ALTER TABLE `announcements`
+  ADD CONSTRAINT `fk_announcements_creator` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `appointments`
+--
+ALTER TABLE `appointments`
+  ADD CONSTRAINT `fk_appointments_creator` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_appointments_doctor` FOREIGN KEY (`doctor_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_appointments_patient` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `appointment_waitlist`
+--
+ALTER TABLE `appointment_waitlist`
+  ADD CONSTRAINT `fk_waitlist_creator` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_waitlist_doctor` FOREIGN KEY (`doctor_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_waitlist_patient` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `clinic_settings`
+--
+ALTER TABLE `clinic_settings`
+  ADD CONSTRAINT `fk_settings_updater` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Constraints for table `consultation_notes`
+--
+ALTER TABLE `consultation_notes`
+  ADD CONSTRAINT `fk_consultation_appointment` FOREIGN KEY (`appointment_id`) REFERENCES `appointments` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_consultation_doctor` FOREIGN KEY (`doctor_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_consultation_patient` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `developmental_milestones`
+--
+ALTER TABLE `developmental_milestones`
+  ADD CONSTRAINT `fk_milestones_patient` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_milestones_recorded_by` FOREIGN KEY (`recorded_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Constraints for table `doctor_availability`
+--
+ALTER TABLE `doctor_availability`
+  ADD CONSTRAINT `fk_availability_doctor` FOREIGN KEY (`doctor_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `doctor_schedules`
+--
+ALTER TABLE `doctor_schedules`
+  ADD CONSTRAINT `fk_schedules_doctor` FOREIGN KEY (`doctor_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `growth_records`
+--
+ALTER TABLE `growth_records`
+  ADD CONSTRAINT `fk_growth_patient` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_growth_recorded_by` FOREIGN KEY (`recorded_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Constraints for table `login_history`
+--
+ALTER TABLE `login_history`
+  ADD CONSTRAINT `fk_login_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `medical_certificates`
+--
+ALTER TABLE `medical_certificates`
+  ADD CONSTRAINT `fk_certificates_appointment` FOREIGN KEY (`appointment_id`) REFERENCES `appointments` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_certificates_doctor` FOREIGN KEY (`doctor_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_certificates_patient` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `medical_records`
+--
+ALTER TABLE `medical_records`
+  ADD CONSTRAINT `fk_medical_records_doctor` FOREIGN KEY (`doctor_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_medical_records_patient` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD CONSTRAINT `fk_notifications_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `patients`
+--
+ALTER TABLE `patients`
+  ADD CONSTRAINT `fk_patients_parent` FOREIGN KEY (`parent_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `patient_files`
+--
+ALTER TABLE `patient_files`
+  ADD CONSTRAINT `fk_files_patient` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_files_uploader` FOREIGN KEY (`uploaded_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `patient_vaccine_needs`
+--
+ALTER TABLE `patient_vaccine_needs`
+  ADD CONSTRAINT `fk_vaccine_needs_creator` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_vaccine_needs_patient` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_vaccine_needs_vaccine` FOREIGN KEY (`vaccine_id`) REFERENCES `vaccines` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Constraints for table `prescriptions`
+--
+ALTER TABLE `prescriptions`
+  ADD CONSTRAINT `fk_prescriptions_appointment` FOREIGN KEY (`appointment_id`) REFERENCES `appointments` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_prescriptions_doctor` FOREIGN KEY (`doctor_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_prescriptions_patient` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `vaccination_records`
+--
+ALTER TABLE `vaccination_records`
+  ADD CONSTRAINT `fk_vaccination_admin` FOREIGN KEY (`administered_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_vaccination_patient` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_vaccination_vaccine` FOREIGN KEY (`vaccine_id`) REFERENCES `vaccines` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Constraints for table `vaccine_schedule`
+--
+ALTER TABLE `vaccine_schedule`
+  ADD CONSTRAINT `fk_schedule_vaccine` FOREIGN KEY (`vaccine_id`) REFERENCES `vaccines` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

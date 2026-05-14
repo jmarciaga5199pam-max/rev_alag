@@ -1,0 +1,420 @@
+/* ============================================
+   AlagApp Clinic - Shared Styles
+   Common styles used across all pages
+   ============================================ */
+
+/* CSS Custom Properties (Design Tokens) */
+:root {
+    /* Unified pink palette — primary brand color */
+    --primary-pink: #d03664;
+    --primary-pink-hover: #b82a56;
+    --primary-pink-dark: #8e1f42;
+    --primary-pink-dashboard: #FF6B9A;
+    --light-pink: #FFBCD9;
+    --pale-pink: #FEE1EB;
+    --whisper-pink: #FFF5F8;
+    --accent-pink: #F06292;
+    --dark-text: #333333;
+    --muted-text: #6B7280;
+    --light-gray: #f8f0f4;
+    --light-gray-dashboard: #F6F6F8;
+    --surface: #FFFFFF;
+    --border-subtle: #F6D4E0;
+}
+
+/* Base Typography */
+body {
+    font-family: 'Source Sans Pro', sans-serif;
+    background: linear-gradient(135deg, #ffffff 0%, #fef5f8 100%);
+    margin: 0;
+    padding: 0;
+}
+
+.font-inter {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Theme Color Utilities */
+.text-primary { color: var(--primary-pink); }
+.bg-primary { background-color: var(--primary-pink); }
+.bg-light-pink { background-color: var(--light-pink); }
+
+/* Card Hover Effect */
+.card-hover {
+    transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 35px rgba(255, 107, 154, 0.15);
+}
+
+/* Primary Button */
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-pink), var(--light-pink));
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(255, 107, 154, 0.3);
+}
+
+/* Modal Backdrop */
+.modal-backdrop {
+    backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.4);
+}
+
+/* Form Input Transitions */
+input, select, textarea {
+    transition: all 0.3s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(208, 54, 100, 0.1);
+}
+
+/* Prevent zoom on iOS */
+@media (max-width: 640px) {
+    input, select, textarea {
+        font-size: 16px !important;
+    }
+}
+
+/* Section Transitions */
+.section-content {
+    transition: opacity 0.3s ease;
+}
+
+.section-content.hidden {
+    display: none;
+}
+
+/* Spinner Animation */
+.spinner {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid var(--primary-pink);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Notification Styles */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 16px 20px;
+    border-radius: 8px;
+    color: white;
+    z-index: 1000;
+    transform: translateX(400px);
+    transition: transform 0.3s ease;
+}
+
+.notification.show {
+    transform: translateX(0);
+}
+
+.notification.success { background: #10B981; }
+.notification.error { background: #EF4444; }
+.notification.info { background: #3B82F6; }
+.notification.warning { background: #F59E0B; }
+
+/* ============================================
+   Shared Toast Container + Confirm Modal
+   Used across all dashboards & landing page
+   ============================================ */
+#appToastContainer {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+    max-width: 360px;
+}
+
+.app-toast {
+    pointer-events: auto;
+    min-width: 260px;
+    max-width: 360px;
+    padding: 14px 18px;
+    border-radius: 10px;
+    color: #fff;
+    font-weight: 500;
+    font-size: 14px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    transform: translateX(420px);
+    opacity: 0;
+    transition: transform 0.35s ease, opacity 0.35s ease;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+.app-toast.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.app-toast.success { background: linear-gradient(135deg, #059669, #10B981); }
+.app-toast.error { background: linear-gradient(135deg, #DC2626, #EF4444); }
+.app-toast.info { background: linear-gradient(135deg, #2563EB, #3B82F6); }
+.app-toast.warning { background: linear-gradient(135deg, #D97706, #F59E0B); }
+
+.app-toast .toast-icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    margin-top: 1px;
+}
+
+.app-toast .toast-close {
+    margin-left: auto;
+    background: transparent;
+    border: 0;
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    padding: 0 4px;
+}
+
+/* Shared confirm modal */
+.app-confirm-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(4px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+.app-confirm-backdrop.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.app-confirm-box {
+    background: #fff;
+    border-radius: 12px;
+    padding: 28px;
+    max-width: 420px;
+    width: calc(100% - 32px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+    transform: translateY(-10px);
+    transition: transform 0.25s ease;
+}
+
+.app-confirm-backdrop.show .app-confirm-box {
+    transform: translateY(0);
+}
+
+.app-confirm-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 10px;
+}
+
+.app-confirm-message {
+    color: #4B5563;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.app-confirm-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.app-confirm-btn {
+    padding: 9px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 0;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.app-confirm-btn.cancel {
+    background: #E5E7EB;
+    color: #374151;
+}
+
+.app-confirm-btn.cancel:hover {
+    background: #D1D5DB;
+}
+
+.app-confirm-btn.confirm {
+    background: linear-gradient(135deg, #EF4444, #DC2626);
+    color: #fff;
+}
+
+.app-confirm-btn.confirm:hover {
+    filter: brightness(1.05);
+}
+
+.app-confirm-btn.confirm.primary {
+    background: linear-gradient(135deg, #ff7aa3, #e06086);
+}
+
+.app-prompt-input-wrap { margin: 12px 0; }
+.app-prompt-input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #D1D5DB;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: #111827;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    font-family: inherit;
+}
+.app-prompt-input:focus {
+    border-color: #ff7aa3;
+    box-shadow: 0 0 0 3px rgba(255, 122, 163, 0.2);
+}
+textarea.app-prompt-input {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.app-confirm-btn.confirm.primary {
+    background: linear-gradient(135deg, var(--primary-pink), var(--light-pink));
+}
+
+/* Status Badges */
+.status-active { background: #d1fae5; color: #065f46; }
+.status-inactive { background: #fee2e2; color: #991b1b; }
+.status-scheduled { background: #dbeafe; color: #1e40af; }
+.status-completed { background: #d1fae5; color: #065f46; }
+.status-cancelled { background: #f3e8ff; color: #7c3aed; }
+
+/* Role Badges */
+.role-parent { background: #dbeafe; color: #1e40af; }
+.role-doctor { background: #d1fae5; color: #065f46; }
+.role-admin { background: #f3e8ff; color: #7c3aed; }
+
+/* Validation State Colors */
+.border-green-500 { border-color: #10B981 !important; }
+.border-yellow-500 { border-color: #F59E0B !important; }
+.border-red-500 { border-color: #EF4444 !important; }
+
+.ring-green-200 { --tw-ring-color: rgba(187, 247, 208, 0.5); }
+.ring-yellow-200 { --tw-ring-color: rgba(253, 230, 138, 0.5); }
+.ring-red-200 { --tw-ring-color: rgba(254, 202, 202, 0.5); }
+
+/* ============================================
+   Pink Theme Refinements & UX Polish
+   ============================================ */
+.text-primary  { color: var(--primary-pink) !important; }
+.bg-primary    { background-color: var(--primary-pink) !important; }
+.hover\:text-primary:hover { color: var(--primary-pink) !important; }
+.hover\:bg-primary:hover { background-color: var(--primary-pink) !important; }
+.border-primary { border-color: var(--primary-pink) !important; }
+.focus\:ring-primary:focus { --tw-ring-color: var(--primary-pink) !important; }
+
+/* Scrollbar themed to pink */
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-track { background: var(--whisper-pink); }
+*::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, var(--primary-pink), var(--light-pink));
+    border-radius: 10px;
+    border: 2px solid var(--whisper-pink);
+}
+*::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, var(--primary-pink-hover), var(--accent-pink));
+}
+
+/* Selection color */
+::selection {
+    background-color: var(--light-pink);
+    color: var(--primary-pink-dark);
+}
+
+/* Button polish with a subtle glow */
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-pink), var(--accent-pink));
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(208, 54, 100, 0.25);
+}
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--primary-pink-hover), var(--primary-pink));
+    box-shadow: 0 8px 22px rgba(208, 54, 100, 0.35);
+}
+.btn-primary:active { transform: translateY(0); }
+.btn-primary:focus-visible {
+    outline: 2px solid var(--primary-pink);
+    outline-offset: 3px;
+}
+
+/* Focus ring for accessibility on interactive elements */
+a:focus-visible,
+button:focus-visible,
+[onclick]:focus-visible {
+    outline: 2px solid var(--primary-pink);
+    outline-offset: 2px;
+    border-radius: 6px;
+}
+
+/* Card polish */
+.card-hover:hover {
+    box-shadow: 0 18px 40px rgba(208, 54, 100, 0.15);
+}
+
+/* Pink utility helpers */
+.bg-pink-50  { background-color: var(--whisper-pink); }
+.bg-pink-100 { background-color: var(--pale-pink); }
+.bg-pink-200 { background-color: #FFC6D9; }
+.text-pink-600 { color: var(--primary-pink); }
+.text-pink-700 { color: var(--primary-pink-hover); }
+.text-pink-800 { color: var(--primary-pink-dark); }
+.border-pink-100 { border-color: var(--border-subtle); }
+.border-pink-200 { border-color: #F4B4C8; }
+.border-pink-300 { border-color: var(--accent-pink); }
+.hover\:bg-pink-50:hover { background-color: var(--whisper-pink); }
+
+/* Skip-to-content link for accessibility */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 8px;
+    background: var(--primary-pink);
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 6px;
+    z-index: 10001;
+    transition: top 0.2s ease;
+    text-decoration: none;
+    font-weight: 600;
+}
+.skip-link:focus { top: 8px; }
+
+/* Small utility for 'coming soon' removal visuals */
+@keyframes subtlePulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.04); }
+}
+.pulse-ready { animation: subtlePulse 1.2s ease-in-out infinite; }
