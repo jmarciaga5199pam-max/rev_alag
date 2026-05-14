@@ -562,10 +562,15 @@ function handleUploadPatientFile($conn, $u_id) {
         $category = 'OTHER';
     }
 
-    // Store metadata in DB (schema column is `description`, legacy migrations used `notes`)
+    // Store metadata in DB (schema column is `description`, legacy migrations used `notes`).
+    // The previous bind type-string was 7 chars for 8 parameters, which caused
+    // mysqli to emit a fatal "Number of variables doesn't match number of
+    // parameters" warning and surface a 500 to the user when they tried to
+    // send a file. Types: i,i,s,s,s,i,s,s = "iisssiss".
     $insert = "INSERT INTO patient_files (patient_id, uploaded_by, original_filename, stored_filename, mime_type, file_size, file_category, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $insert);
-    mysqli_stmt_bind_param($stmt, "iississ", $patient_id, $u_id, $origName, $storedFilename, $mime, $file['size'], $category, $notes);
+    $fileSize = (int) $file['size'];
+    mysqli_stmt_bind_param($stmt, "iisssiss", $patient_id, $u_id, $origName, $storedFilename, $mime, $fileSize, $category, $notes);
     if (!mysqli_stmt_execute($stmt)) {
         // cleanup file on DB error
         @unlink($destination);

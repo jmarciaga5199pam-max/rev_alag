@@ -19,7 +19,7 @@ class RoleMiddleware
     {
         $userType = $_SESSION['user_type'] ?? null;
 
-        if (!$userType || !in_array($userType, $this->allowedRoles)) {
+        if (!$userType || !in_array($userType, $this->allowedRoles, true)) {
             if ($this->isAjax()) {
                 Response::error('Access denied. Insufficient permissions.', 403);
             }
@@ -38,21 +38,13 @@ class RoleMiddleware
     }
 }
 
-// Convenience subclasses for route definitions
+// SUPERADMIN is granted access to every role-scoped area: the requirement is
+// that the superadmin has every permission from every other role.
 class AdminMiddleware extends RoleMiddleware
 {
     public function __construct()
     {
-        parent::__construct('ADMIN');
         parent::__construct('ADMIN', 'SUPERADMIN');
-    }
-}
-
-class SuperadminMiddleware extends RoleMiddleware
-{
-    public function __construct()
-    {
-        parent::__construct('SUPERADMIN');
     }
 }
 

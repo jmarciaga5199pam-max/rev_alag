@@ -68,10 +68,12 @@ function adminConfirm(message, onConfirm, opts) {
     if (typeof window.appConfirm === 'function') {
         window.appConfirm(opts.title || 'Please Confirm', message, function(ok) {
             if (ok) onConfirm();
+            else if (typeof opts.onCancel === 'function') opts.onCancel();
         }, { confirmText: opts.confirmText || 'Yes', cancelText: opts.cancelText || 'Cancel', primary: !!opts.primary });
         return;
     }
     if (confirm(message)) onConfirm();
+    else if (typeof opts.onCancel === 'function') opts.onCancel();
 }
 
 // ---- Modal Functions ----
@@ -140,56 +142,154 @@ function toggleUserStatus(userId) {
 }
 
 function editUser(userId) {
-    // Open the add user modal pre-filled for editing
     var row = document.querySelector('tr[data-user-id="' + userId + '"]');
     if (!row) {
         showNotification('User data not found. Please reload the page.', 'error');
         return;
     }
-    showNotification('Edit user feature coming soon!', 'info');
+    var user;
+    try { user = JSON.parse(row.getAttribute('data-user') || '{}'); }
+    catch (e) { user = {}; }
+    if (!user.id) {
+        showNotification('Could not load user data.', 'error');
+        return;
+    }
+
+    var set = function (id, value) {
+        var el = document.getElementById(id);
+        if (el) el.value = value == null ? '' : value;
+    };
+    set('editUserId', user.id);
+    set('editUserFirstName', user.first_name);
+    set('editUserLastName', user.last_name);
+    set('editUserEmail', user.email);
+    set('editUserPhone', user.phone);
+    set('editUserDob', user.date_of_birth);
+    set('editUserGender', user.gender);
+    set('editUserAddress', user.address);
+    set('editUserEmergencyName', user.emergency_contact_name);
+    set('editUserEmergencyPhone', user.emergency_contact_phone);
+    set('editUserStatus', user.status || 'active');
+
+    var roleSelect = document.getElementById('editUserRole');
+    var roleHint = document.getElementById('editUserRoleHint');
+    var isDoctor = user.user_type === 'DOCTOR' || user.user_type === 'DOCTOR_OWNER';
+    if (roleSelect) {
+        if (isDoctor) {
+            roleSelect.innerHTML = '<option value="' + user.user_type + '">' + user.user_type + '</option>';
+            roleSelect.value = user.user_type;
+            roleSelect.disabled = true;
+            if (roleHint) roleHint.textContent = "Doctor roles cannot be changed.";
+        } else {
+            roleSelect.innerHTML =
+                '<option value="PARENT">Parent</option>' +
+                '<option value="ADMIN">Admin</option>' +
+                '<option value="SUPERADMIN">Super Admin</option>';
+            roleSelect.value = user.user_type || 'PARENT';
+            roleSelect.disabled = false;
+            if (roleHint) roleHint.textContent = "Promoting a user into a doctor role must be done via Add User.";
+        }
+    }
+
+    var modal = document.getElementById('editUserModal');
+    if (modal) modal.classList.remove('hidden');
 }
 
-function changeUserRole(userId, currentRole) {
-    currentRole = (currentRole || '').toUpperCase();
-    if (currentRole === 'DOCTOR' || currentRole === 'DOCTOR_OWNER') {
-        showNotification("A doctor's role cannot be changed.", 'error');
-        return;
-    }
-    var roles = ['PARENT', 'ADMIN', 'SUPERADMIN'];
-    var pick = window.prompt(
-        'Enter new role for this user (current: ' + currentRole + ').\nAllowed: ' + roles.join(', ') + '.\nNote: doctors cannot be assigned through this action.',
-        currentRole
-    );
-    if (pick === null) return;
-    pick = (pick || '').trim().toUpperCase();
-    if (!roles.includes(pick)) {
-        showNotification('Invalid role. Allowed: ' + roles.join(', '), 'error');
-        return;
-    }
-    if (pick === currentRole) {
-        showNotification('Role unchanged.', 'info');
-        return;
-    }
+function closeEditUserModal() {
+    var modal = document.getElementById('editUserModal');
+    if (modal) modal.classList.add('hidden');
+}
 
+function handleEditUser(event) {
+    if (event && event.preventDefault) event.preventDefault();
     var formData = new FormData();
-    formData.append('action', 'update_user_role');
-    formData.append('user_id', userId);
-    formData.append('new_role', pick);
+    formData.append('action', 'update_user_profile');
+    var ids = [
+        ['editUserId', 'user_id'],
+        ['editUserFirstName', 'first_name'],
+        ['editUserLastName', 'last_name'],
+        ['editUserEmail', 'email'],
+        ['editUserPhone', 'phone'],
+        ['editUserDob', 'date_of_birth'],
+        ['editUserGender', 'gender'],
+        ['editUserAddress', 'address'],
+        ['editUserEmergencyName', 'emergency_contact_name'],
+        ['editUserEmergencyPhone', 'emergency_contact_phone'],
+        ['editUserRole', 'user_type'],
+        ['editUserStatus', 'status']
+    ];
+    ids.forEach(function (pair) {
+        var el = document.getElementById(pair[0]);
+        if (el) formData.append(pair[1], el.value || '');
+    });
     if (window.CSRF_TOKEN) formData.append('csrf_token', window.CSRF_TOKEN);
 
     fetch('admin-actions-secure.php', { method: 'POST', body: formData })
-        .then(function(r) { return r.json(); })
-        .then(function(data) {
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
             if (data.success) {
-                showNotification('User role updated.', 'success');
-                setTimeout(function() { location.reload(); }, 800);
+                showNotification(data.message || 'User updated.', 'success');
+                closeEditUserModal();
+                setTimeout(function () { location.reload(); }, 800);
             } else {
-                showNotification(data.message || 'Error updating role.', 'error');
+                showNotification(data.message || 'Error updating user.', 'error');
             }
         })
-        .catch(function() {
-            showNotification('Error updating role.', 'error');
+        .catch(function () {
+            showNotification('Error updating user.', 'error');
         });
+}
+
+// Inline role-dropdown handler. The role <select> sits directly in the table
+// row; selecting a new value asks for confirmation and posts to the server.
+function changeUserRoleSelect(userId, selectEl) {
+    if (!selectEl) return;
+    var newRole = (selectEl.value || '').toUpperCase();
+    var currentRole = (selectEl.getAttribute('data-current-role') || '').toUpperCase();
+    if (newRole === currentRole) return;
+
+    var revert = function () { selectEl.value = currentRole; };
+
+    adminConfirm(
+        "Change this user's role from " + currentRole + " to " + newRole + "?",
+        function () {
+            var formData = new FormData();
+            formData.append('action', 'update_user_role');
+            formData.append('user_id', userId);
+            formData.append('new_role', newRole);
+            if (window.CSRF_TOKEN) formData.append('csrf_token', window.CSRF_TOKEN);
+
+            fetch('admin-actions-secure.php', { method: 'POST', body: formData })
+                .then(function (r) { return r.json(); })
+                .then(function (data) {
+                    if (data.success) {
+                        showNotification(data.message || 'User role updated.', 'success');
+                        selectEl.setAttribute('data-current-role', newRole);
+                        setTimeout(function () { location.reload(); }, 800);
+                    } else {
+                        showNotification(data.message || 'Error updating role.', 'error');
+                        revert();
+                    }
+                })
+                .catch(function () {
+                    showNotification('Error updating role.', 'error');
+                    revert();
+                });
+        },
+        { title: 'Change User Role', confirmText: 'Change', primary: true, onCancel: revert }
+    );
+}
+
+// Legacy compatibility wrapper — kept in case external code still calls it.
+function changeUserRole(userId, currentRole) {
+    var row = document.querySelector('tr[data-user-id="' + userId + '"]');
+    var select = row ? row.querySelector('select[data-current-role]') : null;
+    if (select) {
+        showNotification('Use the role dropdown in the user row.', 'info');
+        select.focus();
+    } else {
+        showNotification("A doctor's role cannot be changed here.", 'error');
+    }
 }
 
 function filterUsers() {

@@ -159,7 +159,9 @@ function handleLogin($conn) {
                 mysqli_stmt_execute($logStmt2);
             }
 
-            // Redirect based on user type
+            // Redirect based on user type. Admin and SuperAdmin go to separate
+            // dashboards so SuperAdmin's elevated capabilities live on a
+            // dedicated page.
             switch ($user['user_type']) {
                 case 'PARENT':
                     header("Location: parent-dashboard.php");
@@ -168,8 +170,10 @@ function handleLogin($conn) {
                 case 'DOCTOR_OWNER':
                     header("Location: doctor-dashboard.php");
                     break;
-                case 'ADMIN':
                 case 'SUPERADMIN':
+                    header("Location: superadmin-dashboard.php");
+                    break;
+                case 'ADMIN':
                     header("Location: admin-dashboard.php");
                     break;
                 default:

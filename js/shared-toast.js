@@ -229,6 +229,77 @@
     window.appConfirm = appConfirm;
     window.appPrompt = appPrompt;
 
+    // Auto-mark every required form field with a red asterisk on its label.
+    // The :has() CSS rule in shared.css covers modern browsers; this JS
+    // fallback works everywhere and is a no-op when the label already shows
+    // an asterisk. Runs on DOMContentLoaded and then watches for forms added
+    // dynamically (modals, etc.) via a MutationObserver.
+    function markRequiredFields(root) {
+        root = root || document;
+        if (!root.querySelectorAll) return;
+        var requiredEls = root.querySelectorAll('input[required], select[required], textarea[required]');
+        for (var i = 0; i < requiredEls.length; i++) {
+            var el = requiredEls[i];
+            if (el.type === 'hidden') continue;
+
+            var label = null;
+            var parentLabel = el.closest && el.closest('label');
+            if (parentLabel) label = parentLabel;
+            if (!label && el.id) {
+                label = document.querySelector('label[for="' + el.id + '"]');
+            }
+            if (!label) {
+                // Walk back to a preceding sibling <label>.
+                var prev = el.previousElementSibling;
+                while (prev) {
+                    if (prev.tagName === 'LABEL') { label = prev; break; }
+                    if (prev.querySelector && prev.querySelector('label')) {
+                        label = prev.querySelector('label'); break;
+                    }
+                    prev = prev.previousElementSibling;
+                }
+                if (!label && el.parentNode) {
+                    var grandparent = el.parentNode.parentNode;
+                    if (grandparent) {
+                        var labels = grandparent.querySelectorAll('label');
+                        if (labels.length === 1) label = labels[0];
+                    }
+                }
+            }
+            if (!label || label.classList.contains('no-asterisk')) continue;
+            if (label.querySelector('.required-asterisk')) continue;
+            if (/[*✱]/.test(label.textContent)) continue;
+
+            var star = document.createElement('span');
+            star.className = 'required-asterisk';
+            star.style.color = '#ef4444';
+            star.style.fontWeight = '700';
+            star.style.marginLeft = '2px';
+            star.setAttribute('aria-hidden', 'true');
+            star.textContent = ' *';
+            label.appendChild(star);
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () { markRequiredFields(document); });
+    } else {
+        markRequiredFields(document);
+    }
+    if (typeof MutationObserver !== 'undefined') {
+        var __requiredObserver = new MutationObserver(function (mutations) {
+            for (var i = 0; i < mutations.length; i++) {
+                var addedNodes = mutations[i].addedNodes;
+                for (var j = 0; j < addedNodes.length; j++) {
+                    var node = addedNodes[j];
+                    if (node.nodeType === 1) markRequiredFields(node);
+                }
+            }
+        });
+        __requiredObserver.observe(document.documentElement, { childList: true, subtree: true });
+    }
+    window.markRequiredFields = markRequiredFields;
+
     // Backward-compatible wrapper: existing showNotification(msg, type) calls
     // should route to the toast system when the legacy #notification element
     // is missing. If a page defines its own showNotification, we don't override.

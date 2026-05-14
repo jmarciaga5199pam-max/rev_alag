@@ -418,3 +418,40 @@ button:focus-visible,
     50%      { transform: scale(1.04); }
 }
 .pulse-ready { animation: subtlePulse 1.2s ease-in-out infinite; }
+
+/* ============================================
+   Required-field marker: ensure every form's required input shows a
+   visible red asterisk on its label, even if the page author forgot to
+   add one manually. Works for the legacy Tailwind utility classes and
+   raw <label> elements in equal measure.
+   ============================================ */
+
+/* When a <label> immediately precedes a required input/select/textarea,
+   append the asterisk to the label. */
+label:has(+ input[required]):not(.no-asterisk)::after,
+label:has(+ select[required]):not(.no-asterisk)::after,
+label:has(+ textarea[required]):not(.no-asterisk)::after {
+    content: " *";
+    color: #ef4444; /* tailwind text-red-500 */
+    font-weight: 700;
+    margin-left: 2px;
+}
+
+/* When the input lives inside the label, mark the label itself. */
+label:has(> input[required]):not(.no-asterisk)::after,
+label:has(> select[required]):not(.no-asterisk)::after,
+label:has(> textarea[required]):not(.no-asterisk)::after {
+    content: " *";
+    color: #ef4444;
+    font-weight: 700;
+    margin-left: 2px;
+}
+
+/* For forms that use a "required" class on the label as well. */
+.required-label:not(.no-asterisk)::after,
+label.required:not(.no-asterisk)::after {
+    content: " *";
+    color: #ef4444;
+    font-weight: 700;
+    margin-left: 2px;
+}
